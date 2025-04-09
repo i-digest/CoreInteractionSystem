@@ -1,0 +1,7 @@
+title: AccountDetailsListResponse
+type: object
+properties:
+  accountDetails:
+    type: object
+    additionalProperties:
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/AccountDetails'

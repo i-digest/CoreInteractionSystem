@@ -1,7 +1,7 @@
 title: Balance
 type: object
 properties:
-  id:
+  accountId:
     type: string
   amount:
     type: number

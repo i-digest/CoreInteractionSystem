@@ -11,6 +11,14 @@
     <artifactId>outbound-client</artifactId>
     <name>Outbound Client</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.coreintegration</groupId>
+            <artifactId>commons</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -22,7 +30,7 @@
                         <id>generate-core-client</id>
                         <goals><goal>generate</goal></goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/accounts-api-v1.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/accounts-details-api-v1.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <library>webclient</library>
                             <output>${project.parent.basedir}/outbound-client/generated</output>

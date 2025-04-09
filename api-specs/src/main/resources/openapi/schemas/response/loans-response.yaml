@@ -1,0 +1,7 @@
+title: LoansResponse
+type: object
+properties:
+  accountDetails:
+    type: array
+    items:
+      $ref: '../../loans-api-v1.yaml#/components/schemas/Loan'

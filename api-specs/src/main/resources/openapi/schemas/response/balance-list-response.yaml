@@ -1,0 +1,7 @@
+title: BalanceListResponse
+type: object
+properties:
+  balances:
+    type: object
+    additionalProperties:
+      $ref: '../../balances-api-v1.yaml#/components/schemas/Balance'

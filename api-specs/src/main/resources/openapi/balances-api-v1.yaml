@@ -8,35 +8,52 @@ servers:
 paths:
   /:
     get:
-      summary: Get list of balance
+      summary: Get balances by account ids
+      operationId: getBalancesByAccountIds
+      tags:
+        - Balances
       parameters:
-        - in: query
-          name: page
+        - name: accountIds
+          in: query
+          required: true
+          style: form
+          explode: true
           schema:
-            type: integer
-          required: false
-        - in: query
-          name: size
-          schema:
-            type: integer
-          required: false
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: Successful operation
-  /{id}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceListResponse'
+  /{accountId}:
     get:
-      summary: Get a single balance
+      summary: Get balance by account id
+      operationId: getBalanceByAccountId
+      tags:
+        - Balances
       parameters:
-        - in: path
-          name: id
+        - name: accountId
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
 
 components:
   schemas:
+    BalanceResponse:
+      $ref: "./schemas/response/balance-response.yaml"
+    BalanceListResponse:
+      $ref: "./schemas/response/balance-list-response.yaml"
     Balance:
-      $ref: "./schemas/balance.yaml"
+      $ref: "./schemas/model/balance.yaml"

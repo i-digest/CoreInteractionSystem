@@ -1,0 +1,99 @@
+server:
+  port: 4020
+
+spring:
+  application:
+    name: Core Interaction System
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coredb
+    username: core
+    password: secret
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 1000ms
+      database: 0
+      ttl: 30M
+
+resilience4j:
+  ratelimiter:
+    instances:
+      accountsRateLimiter:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1s
+        timeoutDuration: 500ms
+
+      accountsBulkRateLimiter:
+        limitForPeriod: 2
+        limitRefreshPeriod: 2s
+        timeoutDuration: 700ms
+
+      loansRateLimiter:
+        limitForPeriod: 3
+        limitRefreshPeriod: 2s
+        timeoutDuration: 300ms
+
+      loansBulkRateLimiter:
+        limitForPeriod: 2
+        limitRefreshPeriod: 3s
+        timeoutDuration: 700ms
+
+      balancesRateLimiter:
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 200ms
+
+      balancesBulkRateLimiter:
+        limitForPeriod: 5
+        limitRefreshPeriod: 2s
+        timeoutDuration: 500ms
+
+      debitCardsRateLimiter:
+        limitForPeriod: 7
+        limitRefreshPeriod: 1s
+        timeoutDuration: 300ms
+
+      debitCardsBulkRateLimiter:
+        limitForPeriod: 3
+        limitRefreshPeriod: 2s
+        timeoutDuration: 500ms
+
+      legalEntitiesRateLimiter:
+        limitForPeriod: 4
+        limitRefreshPeriod: 2s
+        timeoutDuration: 400ms
+
+      legalEntitiesBulkRateLimiter:
+        limitForPeriod: 2
+        limitRefreshPeriod: 3s
+        timeoutDuration: 600ms
+
+      limitsRateLimiter:
+        limitForPeriod: 6
+        limitRefreshPeriod: 1s
+        timeoutDuration: 250ms
+
+      limitsBulkRateLimiter:
+        limitForPeriod: 3
+        limitRefreshPeriod: 2s
+        timeoutDuration: 500ms
+
+logging:
+  level:
+    root: INFO
+    com.coreintegration: DEBUG

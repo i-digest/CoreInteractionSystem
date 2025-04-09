@@ -1,0 +1,24 @@
+title: AccountDetails
+type: object
+properties:
+  id:
+    type: string
+  firstName:
+    type: string
+  lastName:
+    type: string
+  surname:
+    type: string
+  legalEntities:
+    type: array
+    items:
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/LegalEntity'
+  balance:
+    $ref: '../../accounts-details-api-v1.yaml#/components/schemas/Balance'
+  debitCards:
+    type: array
+    items:
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/DebitCard'
+  lastUpdateDate:
+    type: string
+    format: date-time

@@ -8,35 +8,52 @@ servers:
 paths:
   /:
     get:
-      summary: Get list of loan
+      summary: Get list of loans by account ids
+      operationId: getLimitsByAccountIds
+      tags:
+        - Loans
       parameters:
-        - in: query
-          name: page
+        - name: accountIds
+          in: query
+          required: true
+          style: form
+          explode: true
           schema:
-            type: integer
-          required: false
-        - in: query
-          name: size
-          schema:
-            type: integer
-          required: false
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: Successful operation
-  /{id}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoansListResponse'
+  /{accountId}:
     get:
-      summary: Get a single loan
+      summary: get loans by account id
+      operationId: getLimitsByAccountId
+      tags:
+        - Loans
       parameters:
-        - in: path
-          name: id
+        - name: accountId
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoansResponse'
 
 components:
   schemas:
+    LoansResponse:
+      $ref: "./schemas/response/loans-response.yaml"
+    LoansListResponse:
+      $ref: "./schemas/response/loans-list-response.yaml"
     Loan:
-      $ref: "./schemas/loan.yaml"
+      $ref: "./schemas/model/loan.yaml"

@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>api-specs</artifactId>
-    <version>${project.parent.version}</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>API Specifications</name>
 
@@ -50,7 +50,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/accounts-api-v1.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/accounts-details-api-v1.yaml</inputSpec>
                             <generatorName>openapi-yaml</generatorName>
                             <output>${project.build.directory}/accounts</output>
                         </configuration>

@@ -15,12 +15,11 @@
         <module>inbound-api</module>             <!-- REST-контроллеры (генерация по спекам) -->
         <module>database</module>                <!-- Локальное JPA-хранилище -->
         <module>outbound-client</module>         <!-- WebClient / Feign-клиенты к core -->
-        <module>rate-limiter</module>            <!-- Ограничение скорости запросов -->
         <module>circuit-breaker</module>         <!-- Circuit Breaker / resilience4j -->
         <module>fallback-engine</module>         <!-- Фоллбеки при отказах -->
         <module>monitoring</module>              <!-- Метрики, логи, AOP -->
         <module>request-deduplication</module>   <!-- Дедупликация входящих запросов -->
-        <module>caching</module>                 <!-- Redis / Caffeine кеш -->
+        <module>commons</module>                 <!-- Redis / Caffeine кеш -->
     </modules>
 
     <properties>
@@ -31,7 +30,7 @@
         <open-api-specs-dir>${project.build.directory}/specs</open-api-specs-dir>
 
         <java.version>17</java.version>
-        <spring.boot.version>3.2.2</spring.boot.version>
+        <spring.boot.version>3.4.4</spring.boot.version>
         <spring.cloud.version>2023.0.0</spring.cloud.version>
         <openapi.generator.version>7.4.0</openapi.generator.version>
         <resilience4j.version>2.2.0</resilience4j.version>
@@ -45,7 +44,22 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version> <!-- Актуальная стабильная версия на апрель 2025 -->
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

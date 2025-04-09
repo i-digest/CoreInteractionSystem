@@ -1,0 +1,7 @@
+title: LimitsListResponse
+type: object
+properties:
+  debitCards:
+    type: object
+    additionalProperties:
+      $ref: '../../limits-api-v1.yaml#/components/schemas/Limit'

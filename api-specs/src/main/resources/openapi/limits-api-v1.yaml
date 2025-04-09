@@ -8,35 +8,50 @@ servers:
 paths:
   /:
     get:
-      summary: Get list of limit
+      summary: Get list of limits by account ids
+      operationId: getLimitsByAccountIds
+      tags:
+        - Limits
       parameters:
-        - in: query
-          name: page
+        - name: accountIds
+          in: query
+          required: true
           schema:
-            type: integer
-          required: false
-        - in: query
-          name: size
-          schema:
-            type: integer
-          required: false
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: Successful operation
-  /{id}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LimitsListResponse'
+  /{accountId}:
     get:
-      summary: Get a single limit
+      summary: get limits by account id
+      operationId: getLimitsByAccountId
+      tags:
+        - Limits
       parameters:
-        - in: path
-          name: id
+        - name: accountId
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LimitsResponse'
 
 components:
   schemas:
+    LimitsResponse:
+      $ref: "./schemas/response/limits-response.yaml"
+    LimitsListResponse:
+      $ref: "./schemas/response/limits-list-response.yaml"
     Limit:
-      $ref: "./schemas/limit.yml"
+      $ref: "./schemas/model/limit.yml"

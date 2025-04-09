@@ -8,35 +8,52 @@ servers:
 paths:
   /:
     get:
-      summary: Get list of debitcard
+      summary: Get debit cards by account ids
+      operationId: getDebitCardsByAccountIds
+      tags:
+        - DebitCards
       parameters:
-        - in: query
-          name: page
+        - name: accountIds
+          in: query
+          required: true
+          style: form
+          explode: true
           schema:
-            type: integer
-          required: false
-        - in: query
-          name: size
-          schema:
-            type: integer
-          required: false
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: Successful operation
-  /{id}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebitCardListResponse'
+  /{accountId}:
     get:
       summary: Get a single debitcard
+      operationId: getDebitCardsByAccountId
+      tags:
+        - DebitCards
       parameters:
-        - in: path
-          name: id
+        - name: accountId
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebitCardResponse'
 
 components:
   schemas:
+    DebitCardResponse:
+      $ref: "./schemas/response/debit-cards-response.yaml"
+    DebitCardListResponse:
+      $ref: "./schemas/response/debit-cards-list-response.yaml"
     DebitCard:
-      $ref: "./schemas/debit-card.yaml"
+      $ref: "./schemas/model/debit-card.yaml"

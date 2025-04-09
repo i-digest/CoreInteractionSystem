@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Account
+  version: v1
+servers:
+  - url: /service-api/v1/accounts
+
+paths:
+  /:
+    get:
+      summary: Get list of account details
+      operationId: getAccountsDetailsByIds
+      tags:
+        - AccountDetails
+      parameters:
+        - name: accountIds
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsListResponse'
+  /{accountId}:
+    get:
+      summary: Get a account details
+      operationId: getAccountDetailsById
+      tags:
+        - AccountDetails
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponse'
+
+components:
+  schemas:
+    AccountDetailsResponse:
+      $ref: "./schemas/response/account-details-response.yaml"
+    AccountDetailsListResponse:
+      $ref: "./schemas/response/account-details-list-response.yaml"
+    AccountDetails:
+      $ref: "./schemas/model/account-details.yaml"
+    LegalEntity:
+      $ref: "./schemas/model/legal-entity.yaml"
+    Balance:
+      $ref: "./schemas/model/balance.yaml"
+    DebitCard:
+      $ref: "./schemas/model/debit-card.yaml"
+

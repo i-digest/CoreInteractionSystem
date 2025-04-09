@@ -8,35 +8,52 @@ servers:
 paths:
   /:
     get:
-      summary: Get list of legalentity
+      summary: Get list of legal entities by account ids
+      operationId: getLegalEntitiesByAccountIds
+      tags:
+        - LegalEntities
       parameters:
-        - in: query
-          name: page
+        - name: accountIds
+          in: query
+          required: true
+          style: form
+          explode: true
           schema:
-            type: integer
-          required: false
-        - in: query
-          name: size
-          schema:
-            type: integer
-          required: false
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: Successful operation
-  /{id}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegalEntitiesListResponse'
+  /{accountId}:
     get:
-      summary: Get a single legalentity
+      summary: get legal entities by account id
+      operationId: getLegalEntitiesByAccountId
+      tags:
+        - LegalEntities
       parameters:
-        - in: path
-          name: id
+        - name: accountId
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegalEntitiesResponse'
 
 components:
   schemas:
+    LegalEntitiesResponse:
+      $ref: "./schemas/response/legal-entities-response.yaml"
+    LegalEntitiesListResponse:
+      $ref: "./schemas/response/legal-entities-list-response.yaml"
     LegalEntity:
-      $ref: "./schemas/legal-entity.yaml"
+      $ref: "./schemas/model/legal-entity.yaml"

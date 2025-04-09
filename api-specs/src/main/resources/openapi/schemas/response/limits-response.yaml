@@ -1,0 +1,7 @@
+title: LimitsResponse
+type: object
+properties:
+  accountDetails:
+    type: array
+    items:
+      $ref: '../../limits-api-v1.yaml#/components/schemas/Limit'
