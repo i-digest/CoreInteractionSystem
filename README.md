@@ -50,9 +50,5 @@ CoreInteractionSystem — это модульная Java-платформа на
 ## 🚀 Запуск
 
 ```bash
-./mvnw clean install
+./mvn clean install
 ```
-
-## 📜 Лицензия
-
-MIT License
