@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Loan
+  version: v1
+servers:
+  - url: /service-api/v1/loans
+
+paths:
+  /:
+    get:
+      summary: Get list of loan
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+          required: false
+      responses:
+        '200':
+          description: Successful operation
+  /{id}:
+    get:
+      summary: Get a single loan
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+
+components:
+  schemas:
+    Loan:
+      $ref: "./schemas/loan.yaml"

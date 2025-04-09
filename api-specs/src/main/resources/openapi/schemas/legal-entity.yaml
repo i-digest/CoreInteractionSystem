@@ -1,0 +1,9 @@
+title: LegalEntity
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  accountId:
+    type: string

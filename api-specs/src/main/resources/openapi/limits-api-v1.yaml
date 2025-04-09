@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Limit
+  version: v1
+servers:
+  - url: /service-api/v1/limits
+
+paths:
+  /:
+    get:
+      summary: Get list of limit
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+          required: false
+      responses:
+        '200':
+          description: Successful operation
+  /{id}:
+    get:
+      summary: Get a single limit
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+
+components:
+  schemas:
+    Limit:
+      $ref: "./schemas/limit.yml"

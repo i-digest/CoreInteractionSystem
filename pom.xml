@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.coreintegration</groupId>
+    <artifactId>CoreIntegrationSystem</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>Core Interaction System</name>
+
+    <modules>
+        <module>api-specs</module>               <!-- OpenAPI YAML-описания -->
+        <module>inbound-api</module>             <!-- REST-контроллеры (генерация по спекам) -->
+        <module>database</module>                <!-- Локальное JPA-хранилище -->
+        <module>outbound-client</module>         <!-- WebClient / Feign-клиенты к core -->
+        <module>rate-limiter</module>            <!-- Ограничение скорости запросов -->
+        <module>circuit-breaker</module>         <!-- Circuit Breaker / resilience4j -->
+        <module>fallback-engine</module>         <!-- Фоллбеки при отказах -->
+        <module>monitoring</module>              <!-- Метрики, логи, AOP -->
+        <module>request-deduplication</module>   <!-- Дедупликация входящих запросов -->
+        <module>caching</module>                 <!-- Redis / Caffeine кеш -->
+    </modules>
+
+    <properties>
+        <swagger-annotations.version>2.2.15</swagger-annotations.version>
+        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+        <openapi-generator-maven-plugin.version>7.4.0</openapi-generator-maven-plugin.version>
+
+        <open-api-specs-dir>${project.build.directory}/specs</open-api-specs-dir>
+
+        <java.version>17</java.version>
+        <spring.boot.version>3.2.2</spring.boot.version>
+        <spring.cloud.version>2023.0.0</spring.cloud.version>
+        <openapi.generator.version>7.4.0</openapi.generator.version>
+        <resilience4j.version>2.2.0</resilience4j.version>
+
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot BOM -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

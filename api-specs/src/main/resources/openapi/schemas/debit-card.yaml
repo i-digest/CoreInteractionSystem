@@ -1,0 +1,7 @@
+title: DebitCard
+type: object
+properties:
+  id:
+    type: string
+  number:
+    type: string

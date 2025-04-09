@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.coreintegration</groupId>
+        <artifactId>CoreIntegrationSystem</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>outbound-client</artifactId>
+    <name>Outbound Client</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.4.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-core-client</id>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/accounts-api-v1.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>webclient</library>
+                            <output>${project.parent.basedir}/outbound-client/generated</output>
+                            <configOptions>
+                                <apiPackage>com.coreintegration.outbound.client.v1.accounts.api</apiPackage>
+                                <modelPackage>com.coreintegration.outbound.client.v1.accounts.model</modelPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

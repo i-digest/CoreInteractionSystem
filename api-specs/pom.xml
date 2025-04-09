@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.coreintegration</groupId>
+        <artifactId>CoreIntegrationSystem</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>api-specs</artifactId>
+    <version>${project.parent.version}</version>
+    <packaging>jar</packaging>
+    <name>API Specifications</name>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>openapi/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${project.build.directory}/openapi</directory>
+                <targetPath>generated</targetPath>
+                <includes>
+                    <include>account-api-v1.yaml</include>
+                    <include>balances-api-v1.yaml</include>
+                    <include>debitcards-api-v1.yaml</include>
+                    <include>legalentities-api-v1.yaml</include>
+                    <include>limits-api-v1.yaml</include>
+                    <include>loans-api-v1.yaml</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-accounts</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/accounts-api-v1.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <output>${project.build.directory}/accounts</output>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-balances</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/balances-api-v1.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <output>${project.build.directory}/balances</output>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-debitcards</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/debitcards-api-v1.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <output>${project.build.directory}/debitcards</output>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-legalentities</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/legalentities-api-v1.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <output>${project.build.directory}/legalentities</output>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-limits</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/limits-api-v1.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <output>${project.build.directory}/limits</output>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-loans</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/loans-api-v1.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <output>${project.build.directory}/loans</output>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven-antrun-plugin.version}</version>
+                <configuration>
+                    <target>
+                        <mkdir dir="${project.build.directory}/openapi" />
+                    </target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>rename-accounts-file</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/accounts/openapi/openapi.yaml"
+                                      tofile="${project.build.directory}/openapi/account-api-v1.yaml" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>rename-balances-file</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/balances/openapi/openapi.yaml"
+                                      tofile="${project.build.directory}/openapi/balances-api-v1.yaml" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>rename-debitcards-file</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/debitcards/openapi/openapi.yaml"
+                                      tofile="${project.build.directory}/openapi/debitcards-api-v1.yaml" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>rename-legalentities-file</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/legalentities/openapi/openapi.yaml"
+                                      tofile="${project.build.directory}/openapi/legalentities-api-v1.yaml" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>rename-limits-file</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/limits/openapi/openapi.yaml"
+                                      tofile="${project.build.directory}/openapi/limits-api-v1.yaml" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>rename-loans-file</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/loans/openapi/openapi.yaml"
+                                      tofile="${project.build.directory}/openapi/loans-api-v1.yaml" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

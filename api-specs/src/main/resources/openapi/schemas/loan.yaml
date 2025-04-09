@@ -1,0 +1,5 @@
+title: Loan
+type: object
+properties:
+  id:
+    type: string
