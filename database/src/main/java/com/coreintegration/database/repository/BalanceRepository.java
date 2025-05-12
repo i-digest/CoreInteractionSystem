@@ -1,6 +1,6 @@
 package com.coreintegration.database.repository;
 
-import com.coreintegration.database.entity.AccountDetailsEntity;
+import com.coreintegration.database.entity.BalanceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Async;
@@ -10,13 +10,13 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface AccountDetailsRepository extends JpaRepository<AccountDetailsEntity, String> {
+public interface BalanceRepository extends JpaRepository<BalanceEntity, String> {
 
-    List<AccountDetailsEntity> findAllByIdIn(Collection<String> ids);
+    List<BalanceEntity> findAllByAccountIdIn(Collection<String> ids);
 
     @Async
     @NonNull
-    default void saveAllAsync(@NonNull Iterable<AccountDetailsEntity> entities) {
+    default void saveAllAsync(@NonNull Iterable<BalanceEntity> entities) {
         saveAll(entities);
     }
 }

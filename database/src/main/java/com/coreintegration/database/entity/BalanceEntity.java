@@ -8,12 +8,15 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 @Data
-@Table(name = "account_details")
+@Table(name = "balance")
 @EqualsAndHashCode
-public class AccountDetailsEntity {
+public class BalanceEntity {
 
     @Column(name = "id")
     private String id;
+
+    @Column(name = "account_id")
+    private String accountId;
 
     @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
