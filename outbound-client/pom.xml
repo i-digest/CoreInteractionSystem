@@ -17,6 +17,16 @@
             <artifactId>commons</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.coreintegration</groupId>
+            <artifactId>database</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.coreintegration</groupId>
+            <artifactId>circuit-breaker</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
