@@ -27,22 +27,22 @@ public class AccountDetailsCachedDatabaseServiceAware {
     private final AccountDetailsMapper accountDetailsMapper;
 
     @Cacheable(value = CACHE_NAME, key = "#accountId", unless = "#result == null")
-    public AccountDetailsDto getAccountDetails(@NonNull final UUID accountId, @NonNull final Supplier<AccountDetailsDto> supplier) {
+    public AccountDetailsDto getAccountDetailsById(@NonNull final UUID accountId, @NonNull final Supplier<AccountDetailsDto> supplier) {
         return getDetailsAndUpdateFromSupplier(accountId, supplier);
     }
 
     @NonNull
-    public List<AccountDetailsDto> getListOfAccountDetails(@NonNull final List<UUID> accountIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<AccountDetailsDto>> supplier) {
-        final List<AccountDetailsDto> details = new ArrayList<>(accountIds.size());
+    public List<AccountDetailsDto> getAccountDetailsByIds(@NonNull final List<UUID> accountIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<AccountDetailsDto>> supplier) {
+        final List<AccountDetailsDto> accountDetails = new ArrayList<>(accountIds.size());
 
         final List<UUID> idMissedFromCache = new ArrayList<>();
         idsToLoadFromCore.clear();
         final Cache accountDetailsCache = cacheManager.getCache(CACHE_NAME);
         accountIds.forEach(accountId -> {
             if (accountDetailsCache != null) {
-                final AccountDetailsDto accountDetails = accountDetailsCache.get(accountId, AccountDetailsDto.class);
-                if (accountDetails != null) {
-                    details.add(accountDetails);
+                final AccountDetailsDto accountDetail = accountDetailsCache.get(accountId, AccountDetailsDto.class);
+                if (accountDetail != null) {
+                    accountDetails.add(accountDetail);
                 } else {
                     idMissedFromCache.add(accountId);
                 }
@@ -52,13 +52,13 @@ public class AccountDetailsCachedDatabaseServiceAware {
         });
 
         if (!idMissedFromCache.isEmpty()) {
-            details.addAll(getDetailsListAndUpdateFromSupplier(idMissedFromCache, idsToLoadFromCore, supplier));
+            accountDetails.addAll(getDetailsListAndUpdateFromSupplier(idMissedFromCache, idsToLoadFromCore, supplier));
             if (accountDetailsCache != null) {
-                details.forEach(accountDetails -> accountDetailsCache.put(accountDetails.getId(), accountDetails));
+                accountDetails.forEach(accountDetail -> accountDetailsCache.put(accountDetail.getId(), accountDetail));
             }
         }
 
-        return details;
+        return accountDetails;
     }
 
     private Collection<AccountDetailsDto> getDetailsListAndUpdateFromSupplier(@NonNull final List<UUID> accountIds, List<UUID> idsToLoad, @NonNull final Supplier<Collection<AccountDetailsDto>> supplier) {

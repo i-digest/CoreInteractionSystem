@@ -18,35 +18,35 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BalanceCachedDatabaseServiceAware {
+public class BalancesCachedDatabaseServiceAware {
 
-    private static final String CACHE_NAME = "balanceCache";
+    private static final String CACHE_NAME = "balancesCache";
     private final CacheManager cacheManager;
     private final BalanceRepository balanceRepository;
     private final BalanceMapper balanceMapper;
 
     @NonNull
-    public List<BalanceDto> getBalance(@NonNull final UUID balanceId, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<BalanceDto>> supplier) {
-        return getListOfBalance(List.of(balanceId), idsToLoadFromCore, supplier);
+    public List<BalanceDto> getBalancesByAccountId(@NonNull final UUID accountId, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<BalanceDto>> supplier) {
+        return getBalancesByAccountIds(List.of(accountId), idsToLoadFromCore, supplier);
     }
 
     @NonNull
-    public List<BalanceDto> getListOfBalance(@NonNull final List<UUID> balanceIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<BalanceDto>> supplier) {
-        final List<BalanceDto> balances = new ArrayList<>(balanceIds.size());
+    public List<BalanceDto> getBalancesByAccountIds(@NonNull final List<UUID> accountIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<BalanceDto>> supplier) {
+        final List<BalanceDto> balances = new ArrayList<>(accountIds.size());
 
         final List<UUID> idMissedFromCache = new ArrayList<>();
         idsToLoadFromCore.clear();
         final Cache balancesCache = cacheManager.getCache(CACHE_NAME);
-        balanceIds.forEach(balanceId -> {
+        accountIds.forEach(accountId -> {
             if (balancesCache != null) {
-                final BalanceDto balance = balancesCache.get(balanceId, BalanceDto.class);
+                final BalanceDto balance = balancesCache.get(accountId, BalanceDto.class);
                 if (balance != null) {
                     balances.add(balance);
                 } else {
-                    idMissedFromCache.add(balanceId);
+                    idMissedFromCache.add(accountId);
                 }
             } else {
-                idMissedFromCache.add(balanceId);
+                idMissedFromCache.add(accountId);
             }
         });
 
@@ -67,13 +67,13 @@ public class BalanceCachedDatabaseServiceAware {
         balanceIds.stream()
                 .filter(id -> !map.containsKey(id))
                 .forEach(idsToLoad::add);
-        final Collection<BalanceDto> detailsFromCore = supplier.get();
-        if (!detailsFromCore .isEmpty()) {
-            balanceRepository.saveAllAsync(balanceMapper.toEntityList(detailsFromCore));
+        final Collection<BalanceDto> balancesFromCore = supplier.get();
+        if (!balancesFromCore .isEmpty()) {
+            balanceRepository.saveAllAsync(balanceMapper.toEntityList(balancesFromCore));
         }
-        detailsFromCore.addAll(balanceMapper.toDtoList(allByIdIn));
+        balancesFromCore.addAll(balanceMapper.toDtoList(allByIdIn));
 
-        return detailsFromCore;
+        return balancesFromCore;
     }
 
 }

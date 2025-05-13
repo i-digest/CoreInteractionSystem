@@ -20,12 +20,12 @@ public class LoansController implements LoansApi {
     private final LoansService loansService;
 
     @Override
-    public ResponseEntity<LoansResponseDto> getLimitsByAccountId(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<LoansResponseDto> getLoansByAccountId(@NotBlank @Valid final UUID accountId) {
         return ResponseEntity.ok(loansService.getLoansByAccountId(accountId));
     }
 
     @Override
-    public ResponseEntity<LoansListResponseDto> getLimitsByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<LoansListResponseDto> getLoansByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(loansService.getLoansByAccountIds(accountIds));
     }
 

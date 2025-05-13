@@ -23,7 +23,7 @@ public class AccountDetailsService {
 
     @RateLimiter(name = "accountsRateLimiter")
     public AccountDetailsResponseDto getAccountDetailsById(@NonNull final UUID accountId) {
-        AccountDetailsDto accountDetails = cacheServiceAware.getAccountDetails(accountId,
+        AccountDetailsDto accountDetails = cacheServiceAware.getAccountDetailsById(accountId,
                 () -> accountDetailsClient.getAccountDetailsById(accountId));
 
         return new AccountDetailsResponseDto().accountDetails(accountDetails);
@@ -32,7 +32,7 @@ public class AccountDetailsService {
     @RateLimiter(name = "accountsBulkRateLimiter")
     public AccountDetailsListResponseDto getAccountsDetailsByIds(@NonNull final List<UUID> accountIds) {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
-        final Collection<AccountDetailsDto> accountDetails = cacheServiceAware.getListOfAccountDetails(accountIds, idsToFetchFromCore, () -> accountDetailsClient.getAccountsDetailsByIds(idsToFetchFromCore));
+        final Collection<AccountDetailsDto> accountDetails = cacheServiceAware.getAccountDetailsByIds(accountIds, idsToFetchFromCore, () -> accountDetailsClient.getAccountsDetailsByIds(idsToFetchFromCore));
         final Map<String, AccountDetailsDto> accountDetailsMap = accountDetails.stream()
                 .collect(Collectors.toMap(accountDetail -> accountDetail.getId().toString(), accountDetail -> accountDetail, (a, b) -> b));
 

@@ -17,14 +17,14 @@ public class LoansClient {
     private final LoansApi api = new LoansApi();
 
     @NonNull
-    public List<LoanDto> getLimitsByAccountId(@NotBlank final UUID accountId) {
-        return api.getLimitsByAccountId(accountId)
+    public List<LoanDto> getLoansByAccountId(@NotBlank final UUID accountId) {
+        return api.getLoansByAccountId(accountId)
                 .getLoans();
     }
 
     @NonNull
-    public Collection<LoanDto> getLimitsByAccountIds(@NonNull final List<UUID> accountIds) {
-        return api.getLimitsByAccountIds(accountIds)
+    public Collection<LoanDto> getLoansByAccountIds(@NonNull final List<UUID> accountIds) {
+        return api.getLoansByAccountIds(accountIds)
                 .getLoans()
                 .values()
                 .stream()

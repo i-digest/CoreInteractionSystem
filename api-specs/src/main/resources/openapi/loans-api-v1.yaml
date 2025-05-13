@@ -9,7 +9,7 @@ paths:
   /:
     get:
       summary: Get list of loans by account ids
-      operationId: getLimitsByAccountIds
+      operationId: getLoansByAccountIds
       tags:
         - Loans
       parameters:
@@ -33,7 +33,7 @@ paths:
   /{accountId}:
     get:
       summary: get loans by account id
-      operationId: getLimitsByAccountId
+      operationId: getLoansByAccountId
       tags:
         - Loans
       parameters:
