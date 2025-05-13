@@ -3,3 +3,24 @@ type: object
 properties:
   id:
     type: string
+    format: uuid
+  accountId:
+    type: string
+    format: uuid
+  accountNumber:
+    type: string
+  loanNumber:
+    type: string
+  principalAmount:
+    type: number
+  interestRate:
+    type: number
+  startDate:
+    type: string
+    format: date-time
+  endDate:
+    type: string
+    format: date-time
+  lastUpdateDate:
+    type: string
+    format: date-time

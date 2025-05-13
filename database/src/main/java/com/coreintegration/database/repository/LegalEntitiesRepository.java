@@ -1,6 +1,6 @@
 package com.coreintegration.database.repository;
 
-import com.coreintegration.database.entity.Balance;
+import com.coreintegration.database.entity.LegalEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface BalanceRepository extends AsyncRepository<Balance, UUID> {
+public interface LegalEntitiesRepository extends AsyncRepository<LegalEntity, UUID> {
 
     @NonNull
-    List<Balance> findAllByAccountIdIn(@NonNull Collection<UUID> ids);
+    List<LegalEntity> findAllByAccountIdIn(@NonNull Collection<UUID> ids);
 
 }

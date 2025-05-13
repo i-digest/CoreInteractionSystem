@@ -1,7 +1,7 @@
 package com.coreintegration.database.mapper;
 
-import com.coreintegration.commons.model.Balance;
-import com.coreintegration.database.entity.BalanceEntity;
+import com.coreintegration.commons.model.BalanceDto;
+import com.coreintegration.database.entity.Balance;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BalanceMapper {
 
-    List<Balance> toDto(List<BalanceEntity> entity);
+    List<BalanceDto> toDtoList(List<Balance> entity);
 
-    List<BalanceEntity> toEntity(List<Balance> dto);
+    List<Balance> toEntityList(List<BalanceDto> dto);
 
-    Balance toDto(BalanceEntity entity);
+    BalanceDto toDto(Balance entity);
 
-    BalanceEntity toEntity(Balance dto);
+    Balance toEntity(BalanceDto dto);
 
 }

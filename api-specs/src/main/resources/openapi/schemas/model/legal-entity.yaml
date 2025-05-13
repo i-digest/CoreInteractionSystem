@@ -3,7 +3,12 @@ type: object
 properties:
   id:
     type: string
-  name:
-    type: string
+    format: uuid
   accountId:
     type: string
+    format: uuid
+  name:
+    type: string
+  lastUpdateDate:
+    type: string
+    format: date-time

@@ -1,7 +1,7 @@
 package com.coreintegration.database.service;
 
-import com.coreintegration.commons.model.Balance;
-import com.coreintegration.database.entity.BalanceEntity;
+import com.coreintegration.commons.model.BalanceDto;
+import com.coreintegration.database.entity.Balance;
 import com.coreintegration.database.mapper.BalanceMapper;
 import com.coreintegration.database.repository.BalanceRepository;
 import lombok.NonNull;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -29,20 +30,20 @@ public class BalanceCachedDatabaseServiceAware {
     private final BalanceMapper balanceMapper;
 
     @Cacheable(value = CACHE_NAME, key = "#balanceId", unless = "#result == null")
-    public Balance getBalance(@NonNull final String balanceId, @NonNull final Supplier<Balance> supplier) {
-        return getDetailsAndUpdateFromSupplier(balanceId, supplier);
+    public BalanceDto getBalance(@NonNull final UUID balanceId, @NonNull final Supplier<BalanceDto> supplier) {
+        return getBalancesAndUpdateFromSupplier(balanceId, supplier);
     }
 
     @NonNull
-    public List<Balance> getListOfBalance(@NonNull final List<String> balanceIds, @NonNull final List<String> idsToLoadFromCore, @NonNull final Supplier<List<Balance>> supplier) {
-        final List<Balance> balances = new ArrayList<>(balanceIds.size());
+    public List<BalanceDto> getListOfBalance(@NonNull final List<UUID> balanceIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<List<BalanceDto>> supplier) {
+        final List<BalanceDto> balances = new ArrayList<>(balanceIds.size());
 
-        final List<String> idMissedFromCache = new ArrayList<>();
+        final List<UUID> idMissedFromCache = new ArrayList<>();
         idsToLoadFromCore.clear();
         final Cache balancesCache = cacheManager.getCache(CACHE_NAME);
         balanceIds.forEach(balanceId -> {
             if (balancesCache != null) {
-                final Balance balance = balancesCache.get(balanceId, Balance.class);
+                final BalanceDto balance = balancesCache.get(balanceId, BalanceDto.class);
                 if (balance != null) {
                     balances.add(balance);
                 } else {
@@ -54,7 +55,7 @@ public class BalanceCachedDatabaseServiceAware {
         });
 
         if (!idMissedFromCache.isEmpty()) {
-            balances.addAll(getDetailsListAndUpdateFromSupplier(idMissedFromCache, idsToLoadFromCore, supplier));
+            balances.addAll(getBalanceListAndUpdateFromSupplier(idMissedFromCache, idsToLoadFromCore, supplier));
             if (balancesCache != null) {
                 balances.forEach(balance -> balancesCache.put(balance.getAccountId(), balance));
             }
@@ -63,28 +64,28 @@ public class BalanceCachedDatabaseServiceAware {
         return balances;
     }
 
-    private List<Balance> getDetailsListAndUpdateFromSupplier(@NonNull final List<String> balanceIds, List<String> idsToLoad, @NonNull final Supplier<List<Balance>> supplier) {
-        final List<BalanceEntity> allByIdIn = balanceRepository.findAllByAccountIdIn(balanceIds);
-        final Map<String, BalanceEntity> map = allByIdIn.stream().collect(Collectors.toMap(BalanceEntity::getAccountId, Function.identity()));
+    private List<BalanceDto> getBalanceListAndUpdateFromSupplier(final List<UUID> balanceIds, List<UUID> idsToLoad,final Supplier<List<BalanceDto>> supplier) {
+        final List<Balance> allByIdIn = balanceRepository.findAllByAccountIdIn(balanceIds);
+        final Map<UUID, Balance> map = allByIdIn.stream().collect(Collectors.toMap(Balance::getAccountId, Function.identity()));
 
         balanceIds.stream()
                 .filter(id -> !map.containsKey(id))
                 .forEach(idsToLoad::add);
-        final List<Balance> detailsFromCore = supplier.get();
+        final List<BalanceDto> detailsFromCore = supplier.get();
         if (!detailsFromCore .isEmpty()) {
-            balanceRepository.saveAllAsync(balanceMapper.toEntity(detailsFromCore));
+            balanceRepository.saveAllAsync(balanceMapper.toEntityList(detailsFromCore));
         }
-        detailsFromCore.addAll(balanceMapper.toDto(allByIdIn));
+        detailsFromCore.addAll(balanceMapper.toDtoList(allByIdIn));
 
         return detailsFromCore;
     }
 
-    private Balance getDetailsAndUpdateFromSupplier(final String balanceId, final Supplier<Balance> supplier) {
-        final BalanceEntity entity = loadOrGetFromSupplier(balanceId, supplier);
+    private BalanceDto getBalancesAndUpdateFromSupplier(final UUID balanceId, final Supplier<BalanceDto> supplier) {
+        final Balance entity = loadOrGetFromSupplier(balanceId, supplier);
         return balanceMapper.toDto(entity);
     }
 
-    private BalanceEntity loadOrGetFromSupplier(final String balanceId, final Supplier<Balance> supplier) {
+    private Balance loadOrGetFromSupplier(final UUID balanceId, final Supplier<BalanceDto> supplier) {
         return balanceRepository.findById(balanceId)
                 .orElseGet(() -> balanceMapper.toEntity(supplier.get()));
     }

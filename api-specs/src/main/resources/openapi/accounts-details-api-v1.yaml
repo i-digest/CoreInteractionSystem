@@ -22,6 +22,7 @@ paths:
             type: array
             items:
               type: string
+              format: uuid
       responses:
         '200':
           description: Successful operation
@@ -41,6 +42,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
       responses:
         '200':
           description: Successful operation
@@ -57,10 +59,14 @@ components:
       $ref: "./schemas/response/account-details-list-response.yaml"
     AccountDetails:
       $ref: "./schemas/model/account-details.yaml"
-    LegalEntity:
-      $ref: "./schemas/model/legal-entity.yaml"
     Balance:
       $ref: "./schemas/model/balance.yaml"
     DebitCard:
       $ref: "./schemas/model/debit-card.yaml"
+    LegalEntity:
+      $ref: "./schemas/model/legal-entity.yaml"
+    Limit:
+      $ref: "./schemas/model/limit.yml"
+    Loan:
+      $ref: "./schemas/model/loan.yaml"
 

@@ -1,8 +1,9 @@
 package com.coreintegration.inbound.service;
 
-import com.coreintegration.commons.model.Balance;
-import com.coreintegration.commons.model.BalanceListResponse;
-import com.coreintegration.commons.model.BalanceResponse;
+
+import com.coreintegration.commons.model.BalanceDto;
+import com.coreintegration.commons.model.BalanceListResponseDto;
+import com.coreintegration.commons.model.BalanceResponseDto;
 import com.coreintegration.database.service.BalanceCachedDatabaseServiceAware;
 import com.coreintegration.outbound.client.BalanceClient;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,19 +25,20 @@ public class BalancesService {
     private final BalanceClient balanceClient;
 
     @RateLimiter(name = "balancesRateLimiter")
-    public BalanceResponse getBalanceById(@NonNull final String balanceId) {
-        Balance balance = cacheServiceAware.getBalance(balanceId, () -> balanceClient.getBalanceFromCore(balanceId));
+    public BalanceResponseDto getBalanceById(@NonNull final UUID balanceId) {
+        BalanceDto balance = cacheServiceAware.getBalance(balanceId, () -> balanceClient.getBalanceFromCore(balanceId));
 
-        return new BalanceResponse().balances(balance);
+        return new BalanceResponseDto().balances(balance);
     }
 
     @RateLimiter(name = "balancesBulkRateLimiter")
-    public BalanceListResponse getBalancesByIds(@NonNull final List<String> balanceIds) {
-        final List<String> objects = new ArrayList<>();
-        final List<Balance> balances = cacheServiceAware.getListOfBalance(balanceIds, objects, () -> balanceClient.getListOfBalancesFromCore(objects));
-        final Map<String, Balance> accountDetailsMap =  balances.stream().collect(Collectors.toMap(Balance::getAccountId, Function.identity()));
+    public BalanceListResponseDto getBalancesByIds(@NonNull final List<UUID> balanceIds) {
+        final List<UUID> idsToFetchFromCore = new ArrayList<>();
+        final List<BalanceDto> balances = cacheServiceAware.getListOfBalance(balanceIds, idsToFetchFromCore, () -> balanceClient.getListOfBalancesFromCore(idsToFetchFromCore));
+        final Map<String, BalanceDto> balancesMap = balances.stream()
+                .collect(Collectors.toMap(balance -> balance.getId().toString(), balance -> balance, (a, b) -> b));
 
-        return new BalanceListResponse().balances(accountDetailsMap);
+        return new BalanceListResponseDto().balances(balancesMap);
     }
 
 }

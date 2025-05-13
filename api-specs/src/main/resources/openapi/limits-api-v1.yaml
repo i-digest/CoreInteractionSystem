@@ -20,6 +20,7 @@ paths:
             type: array
             items:
               type: string
+              format: uuid
       responses:
         '200':
           description: Successful operation
@@ -39,6 +40,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
       responses:
         '200':
           description: Successful operation

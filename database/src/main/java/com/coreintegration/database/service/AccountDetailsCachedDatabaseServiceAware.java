@@ -1,7 +1,7 @@
 package com.coreintegration.database.service;
 
-import com.coreintegration.commons.model.AccountDetails;
-import com.coreintegration.database.entity.AccountDetailsEntity;
+import com.coreintegration.commons.model.AccountDetailsDto;
+import com.coreintegration.database.entity.AccountDetails;
 import com.coreintegration.database.mapper.AccountDetailsMapper;
 import com.coreintegration.database.repository.AccountDetailsRepository;
 import lombok.NonNull;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -29,20 +30,20 @@ public class AccountDetailsCachedDatabaseServiceAware {
     private final AccountDetailsMapper accountDetailsMapper;
 
     @Cacheable(value = CACHE_NAME, key = "#accountId", unless = "#result == null")
-    public AccountDetails getAccountDetails(@NonNull final String accountId, @NonNull final Supplier<AccountDetails> supplier) {
+    public AccountDetailsDto getAccountDetails(@NonNull final UUID accountId, @NonNull final Supplier<AccountDetailsDto> supplier) {
         return getDetailsAndUpdateFromSupplier(accountId, supplier);
     }
 
     @NonNull
-    public List<AccountDetails> getListOfAccountDetails(@NonNull final List<String> accountIds, @NonNull final List<String> idsToLoadFromCore, @NonNull final Supplier<List<AccountDetails>> supplier) {
-        final List<AccountDetails> details = new ArrayList<>(accountIds.size());
+    public List<AccountDetailsDto> getListOfAccountDetails(@NonNull final List<UUID> accountIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<List<AccountDetailsDto>> supplier) {
+        final List<AccountDetailsDto> details = new ArrayList<>(accountIds.size());
 
-        final List<String> idMissedFromCache = new ArrayList<>();
+        final List<UUID> idMissedFromCache = new ArrayList<>();
         idsToLoadFromCore.clear();
         final Cache accountDetailsCache = cacheManager.getCache(CACHE_NAME);
         accountIds.forEach(accountId -> {
             if (accountDetailsCache != null) {
-                final AccountDetails accountDetails = accountDetailsCache.get(accountId, AccountDetails.class);
+                final AccountDetailsDto accountDetails = accountDetailsCache.get(accountId, AccountDetailsDto.class);
                 if (accountDetails != null) {
                     details.add(accountDetails);
                 } else {
@@ -63,28 +64,28 @@ public class AccountDetailsCachedDatabaseServiceAware {
         return details;
     }
 
-    private List<AccountDetails> getDetailsListAndUpdateFromSupplier(@NonNull final List<String> accountIds, List<String> idsToLoad, @NonNull final Supplier<List<AccountDetails>> supplier) {
-        final List<AccountDetailsEntity> allByIdIn = accountDetailsRepository.findAllByIdIn(accountIds);
-        final Map<String, AccountDetailsEntity> map = allByIdIn.stream().collect(Collectors.toMap(AccountDetailsEntity::getId, Function.identity()));
+    private List<AccountDetailsDto> getDetailsListAndUpdateFromSupplier(@NonNull final List<UUID> accountIds, List<UUID> idsToLoad, @NonNull final Supplier<List<AccountDetailsDto>> supplier) {
+        final List<AccountDetails> allByIdIn = accountDetailsRepository.findAllByIdIn(accountIds);
+        final Map<UUID, AccountDetails> map = allByIdIn.stream().collect(Collectors.toMap(AccountDetails::getId, Function.identity()));
 
         accountIds.stream()
                 .filter(id -> !map.containsKey(id))
                 .forEach(idsToLoad::add);
-        final List<AccountDetails> detailsFromCore = supplier.get();
+        final List<AccountDetailsDto> detailsFromCore = supplier.get();
         if (!detailsFromCore .isEmpty()) {
-            accountDetailsRepository.saveAllAsync(accountDetailsMapper.toEntity(detailsFromCore));
+            accountDetailsRepository.saveAllAsync(accountDetailsMapper.toEntityList(detailsFromCore));
         }
-        detailsFromCore.addAll(accountDetailsMapper.toDto(allByIdIn));
+        detailsFromCore.addAll(accountDetailsMapper.toDtoList(allByIdIn));
 
         return detailsFromCore;
     }
 
-    private AccountDetails getDetailsAndUpdateFromSupplier(final String accountId, final Supplier<AccountDetails> supplier) {
-        final AccountDetailsEntity entity = loadOrGetFromSupplier(accountId, supplier);
+    private AccountDetailsDto getDetailsAndUpdateFromSupplier(final UUID accountId, final Supplier<AccountDetailsDto> supplier) {
+        final AccountDetails entity = loadOrGetFromSupplier(accountId, supplier);
         return accountDetailsMapper.toDto(entity);
     }
 
-    private AccountDetailsEntity loadOrGetFromSupplier(final String accountId, final Supplier<AccountDetails> supplier) {
+    private AccountDetails loadOrGetFromSupplier(final UUID accountId, final Supplier<AccountDetailsDto> supplier) {
         return accountDetailsRepository.findById(accountId)
                 .orElseGet(() -> accountDetailsMapper.toEntity(supplier.get()));
     }

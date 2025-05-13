@@ -3,5 +3,22 @@ type: object
 properties:
   id:
     type: string
-  number:
+    format: uuid
+  accountId:
     type: string
+    format: uuid
+  cardType:
+    type: string
+  cardNumber:
+    type: string
+  cardExpiryDate:
+    type: string
+    format: date-time
+  cardHolderName:
+    type: string
+  cardIssueDate:
+    type: string
+    format: date-time
+  lastUpdateDate:
+    type: string
+    format: date-time

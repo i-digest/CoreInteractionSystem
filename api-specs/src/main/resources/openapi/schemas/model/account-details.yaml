@@ -3,22 +3,33 @@ type: object
 properties:
   id:
     type: string
+    format: uuid
   firstName:
     type: string
   lastName:
     type: string
   surname:
     type: string
-  legalEntities:
+  balance:
     type: array
     items:
-      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/LegalEntity'
-  balance:
-    $ref: '../../accounts-details-api-v1.yaml#/components/schemas/Balance'
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/Balance'
   debitCards:
     type: array
     items:
       $ref: '../../accounts-details-api-v1.yaml#/components/schemas/DebitCard'
+  legalEntities:
+    type: array
+    items:
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/LegalEntity'
+  loans:
+    type: array
+    items:
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/Loan'
+  limits:
+    type: array
+    items:
+      $ref: '../../accounts-details-api-v1.yaml#/components/schemas/Limit'
   lastUpdateDate:
     type: string
     format: date-time

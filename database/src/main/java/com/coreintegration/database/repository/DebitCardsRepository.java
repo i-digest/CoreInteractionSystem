@@ -1,6 +1,6 @@
 package com.coreintegration.database.repository;
 
-import com.coreintegration.database.entity.Balance;
+import com.coreintegration.database.entity.DebitCard;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface BalanceRepository extends AsyncRepository<Balance, UUID> {
+public interface DebitCardsRepository extends AsyncRepository<DebitCard, UUID> {
 
     @NonNull
-    List<Balance> findAllByAccountIdIn(@NonNull Collection<UUID> ids);
+    List<DebitCard> findAllByAccountIdIn(@NonNull Collection<UUID> ids);
 
 }

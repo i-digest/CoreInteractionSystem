@@ -1,22 +1,17 @@
 package com.coreintegration.database.repository;
 
-import com.coreintegration.database.entity.AccountDetailsEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.coreintegration.database.entity.AccountDetails;
 import org.springframework.lang.NonNull;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface AccountDetailsRepository extends JpaRepository<AccountDetailsEntity, String> {
+public interface AccountDetailsRepository extends AsyncRepository<AccountDetails, UUID> {
 
-    List<AccountDetailsEntity> findAllByIdIn(Collection<String> ids);
-
-    @Async
     @NonNull
-    default void saveAllAsync(@NonNull Iterable<AccountDetailsEntity> entities) {
-        saveAll(entities);
-    }
+    List<AccountDetails> findAllByIdIn(@NonNull Collection<UUID> ids);
+
 }

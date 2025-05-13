@@ -1,7 +1,20 @@
 title: Balance
 type: object
 properties:
+  id:
+    type: string
+    format: uuid
   accountId:
     type: string
-  amount:
+    format: uuid
+  accountNumber:
+    type: string
+  totalBalance:
     type: number
+  availableBalance:
+    type: number
+  currency:
+    type: string
+  lastUpdateDate:
+    type: string
+    format: date-time

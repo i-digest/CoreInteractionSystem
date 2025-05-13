@@ -1,20 +1,27 @@
 package com.coreintegration.database.mapper;
 
-import com.coreintegration.commons.model.AccountDetails;
-import com.coreintegration.database.entity.AccountDetailsEntity;
+import com.coreintegration.commons.model.AccountDetailsDto;
+import com.coreintegration.database.entity.AccountDetails;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        uses = {
+                BalanceMapper.class,
+                DebitCardsMapper.class,
+                LegalEntitiesMapper.class,
+                LimitsMapper.class,
+                LoansMapper.class
+        })
 public interface AccountDetailsMapper {
 
-    List<AccountDetails> toDto(List<AccountDetailsEntity> entity);
+    List<AccountDetailsDto> toDtoList(List<AccountDetails> entity);
 
-    List<AccountDetailsEntity> toEntity(List<AccountDetails> dto);
+    List<AccountDetails> toEntityList(List<AccountDetailsDto> dto);
 
-    AccountDetails toDto(AccountDetailsEntity entity);
+    AccountDetailsDto toDto(AccountDetails entity);
 
-    AccountDetailsEntity toEntity(AccountDetails dto);
+    AccountDetails toEntity(AccountDetailsDto dto);
 
 }
