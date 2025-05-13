@@ -11,4 +11,17 @@
     <artifactId>fallback-engine</artifactId>
     <name>Fallback Engine</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.coreintegration</groupId>
+            <artifactId>commons</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.coreintegration</groupId>
+            <artifactId>database</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
 </project>

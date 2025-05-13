@@ -2,8 +2,7 @@ package com.coreintegration.outbound.client;
 
 import com.coreintegration.circuitbreaker.CircuitBreakerExecutor;
 import com.coreintegration.commons.model.LimitDto;
-import com.coreintegration.database.mapper.LimitsMapper;
-import com.coreintegration.database.repository.LimitsRepository;
+import com.coreintegration.fallbackengine.service.LimitsFallbackService;
 import com.coreintegration.outbound.client.api.LimitsApi;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +10,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -22,16 +19,13 @@ public class LimitsClient {
 
     private final LimitsApi api = new LimitsApi();
     private final CircuitBreakerExecutor circuitBreakerExecutor;
-    private final LimitsRepository limitsRepository;
-    private final LimitsMapper limitsMapper;
+    private final LimitsFallbackService fallbackService;
 
     @NonNull
     public List<LimitDto> getLimitsByAccountId(@NotBlank final UUID accountId) {
         return circuitBreakerExecutor.run("getLimitsByAccountIds",
                 () -> api.getLimitsByAccountId(accountId).getLimits(),
-                () -> limitsRepository.findAllById(Collections.singleton(accountId)).stream()
-                        .map(limitsMapper::toDto)
-                        .toList());
+                () -> fallbackService.getFallbackByAccountId(accountId));
     }
 
     @NonNull
@@ -39,10 +33,8 @@ public class LimitsClient {
         return circuitBreakerExecutor.run(
                         "getLimitsByAccountIds",
                         () -> api.getLimitsByAccountIds(accountIds).getLimits(),
-                        () -> limitsRepository.findAllByAccountIdIn(accountIds).stream()
-                                .map(limitsMapper::toDto)
-                                .collect(Collectors.groupingBy(dc -> dc.getAccountId().toString()))
-                ).values()
+                        () -> fallbackService.getFallbackByAccountIds(accountIds))
+                .values()
                 .stream()
                 .flatMap(List::stream)
                 .toList();

@@ -19,12 +19,12 @@
         </dependency>
         <dependency>
             <groupId>com.coreintegration</groupId>
-            <artifactId>database</artifactId>
+            <artifactId>circuit-breaker</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.coreintegration</groupId>
-            <artifactId>circuit-breaker</artifactId>
+            <artifactId>fallback-engine</artifactId>
             <version>1.0.0</version>
         </dependency>
 
