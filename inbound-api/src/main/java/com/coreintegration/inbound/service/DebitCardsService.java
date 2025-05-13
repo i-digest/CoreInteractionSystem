@@ -26,7 +26,7 @@ public class DebitCardsService {
     @RateLimiter(name = "debitCardsRateLimiter")
     public DebitCardResponseDto getDebitCardsByAccountId(@NonNull final UUID accountId) {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
-        final List<DebitCardDto> debitCards = cacheServiceAware.getDebitCard(accountId, idsToFetchFromCore, () -> debitCardsClient.getDebitCardsFromCore(accountId));
+        final List<DebitCardDto> debitCards = cacheServiceAware.getDebitCard(accountId, idsToFetchFromCore, () -> debitCardsClient.getDebitCardsByAccountId(accountId));
 
         return new DebitCardResponseDto().debitCards(debitCards);
     }
@@ -34,7 +34,7 @@ public class DebitCardsService {
     @RateLimiter(name = "debitCardsBulkRateLimiter")
     public DebitCardListResponseDto getDebitCardsByAccountIds(@NonNull final List<UUID> accountIds) {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
-        final List<DebitCardDto> debitCards = cacheServiceAware.getListOfDebitCard(accountIds, idsToFetchFromCore, () -> debitCardsClient.getListOfDebitCardsFromCore(idsToFetchFromCore));
+        final List<DebitCardDto> debitCards = cacheServiceAware.getListOfDebitCard(accountIds, idsToFetchFromCore, () -> debitCardsClient.getDebitCardsByAccountIds(idsToFetchFromCore));
         final Map<String, List<DebitCardDto>> debitCardsMap = debitCards.stream()
                 .collect(Collectors.groupingBy(dc -> dc.getId().toString()));
 

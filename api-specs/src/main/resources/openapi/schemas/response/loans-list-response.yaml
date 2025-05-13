@@ -1,7 +1,7 @@
 title: LoansListResponse
 type: object
 properties:
-  debitCards:
+  loans:
     type: object
     additionalProperties:
       type: array

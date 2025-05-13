@@ -17,13 +17,13 @@ public class DebitCardsClient {
     private final DebitCardsApi api = new DebitCardsApi();
 
     @NonNull
-    public List<DebitCardDto> getDebitCardsFromCore(@NotBlank final UUID accountId) {
+    public List<DebitCardDto> getDebitCardsByAccountId(@NotBlank final UUID accountId) {
         return api.getDebitCardsByAccountId(accountId)
                 .getDebitCards();
     }
 
     @NonNull
-    public Collection<DebitCardDto> getListOfDebitCardsFromCore(@NonNull final List<UUID> accountIds) {
+    public Collection<DebitCardDto> getDebitCardsByAccountIds(@NonNull final List<UUID> accountIds) {
         return api.getDebitCardsByAccountIds(accountIds)
                 .getDebitCards()
                 .values()

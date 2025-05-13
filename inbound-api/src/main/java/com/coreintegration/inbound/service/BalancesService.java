@@ -24,7 +24,7 @@ public class BalancesService {
     @RateLimiter(name = "balancesRateLimiter")
     public BalanceResponseDto getBalanceById(@NonNull final UUID balanceId) {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
-        List<BalanceDto> balances = cacheServiceAware.getBalance(balanceId, idsToFetchFromCore, () -> balanceClient.getBalanceFromCore(balanceId));
+        List<BalanceDto> balances = cacheServiceAware.getBalance(balanceId, idsToFetchFromCore, () -> balanceClient.getBalanceByAccountId(balanceId));
 
         return new BalanceResponseDto().balances(balances);
     }
@@ -32,7 +32,7 @@ public class BalancesService {
     @RateLimiter(name = "balancesBulkRateLimiter")
     public BalanceListResponseDto getBalancesByIds(@NonNull final List<UUID> balanceIds) {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
-        final Collection<BalanceDto> balances = cacheServiceAware.getListOfBalance(balanceIds, idsToFetchFromCore, () -> balanceClient.getListOfBalancesFromCore(idsToFetchFromCore));
+        final Collection<BalanceDto> balances = cacheServiceAware.getListOfBalance(balanceIds, idsToFetchFromCore, () -> balanceClient.getBalancesByAccountIds(idsToFetchFromCore));
         final Map<String, List<BalanceDto>> balancesMap = balances.stream()
                 .collect(Collectors.groupingBy(dc -> dc.getId().toString()));
 

@@ -17,13 +17,13 @@ public class BalanceClient {
     private final BalancesApi api = new BalancesApi();
 
     @NonNull
-    public List<BalanceDto> getBalanceFromCore(@NotBlank final UUID accountId) {
+    public List<BalanceDto> getBalanceByAccountId(@NotBlank final UUID accountId) {
         return api.getBalanceByAccountId(accountId)
                 .getBalances();
     }
 
     @NonNull
-    public Collection<BalanceDto> getListOfBalancesFromCore(@NonNull final List<UUID> accountIds) {
+    public Collection<BalanceDto> getBalancesByAccountIds(@NonNull final List<UUID> accountIds) {
         return api.getBalancesByAccountIds(accountIds)
                 .getBalances()
                 .values()

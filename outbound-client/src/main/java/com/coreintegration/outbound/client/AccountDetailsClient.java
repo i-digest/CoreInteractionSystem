@@ -18,13 +18,13 @@ public class AccountDetailsClient {
     private final AccountDetailsApi api = new AccountDetailsApi();
 
     @NonNull
-    public AccountDetailsDto getDetailsFromCore(@NotBlank final UUID accountId) {
+    public AccountDetailsDto getAccountDetailsById(@NotBlank final UUID accountId) {
         final AccountDetailsResponseDto responseDto = api.getAccountDetailsById(accountId);
         return responseDto.getAccountDetails();
     }
 
     @NonNull
-    public Collection<AccountDetailsDto> getListOfDetailsFromCore(@NonNull final List<UUID> accountIds) {
+    public Collection<AccountDetailsDto> getAccountsDetailsByIds(@NonNull final List<UUID> accountIds) {
         final AccountDetailsListResponseDto responseDto = api.getAccountsDetailsByIds(accountIds);
         return responseDto.getAccountDetails().values();
     }
