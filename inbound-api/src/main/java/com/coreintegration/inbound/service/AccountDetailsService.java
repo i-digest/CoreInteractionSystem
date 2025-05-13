@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +32,7 @@ public class AccountDetailsService {
     @RateLimiter(name = "accountsBulkRateLimiter")
     public AccountDetailsListResponseDto getAccountsDetailsByIds(@NonNull final List<UUID> accountIds) {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
-        final List<AccountDetailsDto> accountDetails = cacheServiceAware.getListOfAccountDetails(accountIds, idsToFetchFromCore, () -> accountDetailsClient.getListOfDetailsFromCore(idsToFetchFromCore));
+        final Collection<AccountDetailsDto> accountDetails = cacheServiceAware.getListOfAccountDetails(accountIds, idsToFetchFromCore, () -> accountDetailsClient.getListOfDetailsFromCore(idsToFetchFromCore));
         final Map<String, AccountDetailsDto> accountDetailsMap = accountDetails.stream()
                 .collect(Collectors.toMap(accountDetail -> accountDetail.getId().toString(), accountDetail -> accountDetail, (a, b) -> b));
 

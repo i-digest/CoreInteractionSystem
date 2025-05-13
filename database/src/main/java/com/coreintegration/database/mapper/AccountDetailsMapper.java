@@ -4,6 +4,7 @@ import com.coreintegration.commons.model.AccountDetailsDto;
 import com.coreintegration.database.entity.AccountDetails;
 import org.mapstruct.Mapper;
 
+import java.util.Collection;
 import java.util.List;
 
 @Mapper(componentModel = "spring",
@@ -16,9 +17,9 @@ import java.util.List;
         })
 public interface AccountDetailsMapper {
 
-    List<AccountDetailsDto> toDtoList(List<AccountDetails> entity);
+    List<AccountDetailsDto> toDtoList(Collection<AccountDetails> entity);
 
-    List<AccountDetails> toEntityList(List<AccountDetailsDto> dto);
+    List<AccountDetails> toEntityList(Collection<AccountDetailsDto> dto);
 
     AccountDetailsDto toDto(AccountDetails entity);
 

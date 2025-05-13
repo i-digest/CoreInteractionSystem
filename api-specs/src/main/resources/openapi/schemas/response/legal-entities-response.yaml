@@ -2,6 +2,4 @@ title: LegalEntitiesResponse
 type: object
 properties:
   accountDetails:
-    type: array
-    items:
-      $ref: '../../legalentities-api-v1.yaml#/components/schemas/LegalEntity'
+    $ref: '../../legalentities-api-v1.yaml#/components/schemas/LegalEntity'

@@ -11,10 +11,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -35,7 +32,7 @@ public class AccountDetailsCachedDatabaseServiceAware {
     }
 
     @NonNull
-    public List<AccountDetailsDto> getListOfAccountDetails(@NonNull final List<UUID> accountIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<List<AccountDetailsDto>> supplier) {
+    public List<AccountDetailsDto> getListOfAccountDetails(@NonNull final List<UUID> accountIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<AccountDetailsDto>> supplier) {
         final List<AccountDetailsDto> details = new ArrayList<>(accountIds.size());
 
         final List<UUID> idMissedFromCache = new ArrayList<>();
@@ -64,14 +61,14 @@ public class AccountDetailsCachedDatabaseServiceAware {
         return details;
     }
 
-    private List<AccountDetailsDto> getDetailsListAndUpdateFromSupplier(@NonNull final List<UUID> accountIds, List<UUID> idsToLoad, @NonNull final Supplier<List<AccountDetailsDto>> supplier) {
+    private Collection<AccountDetailsDto> getDetailsListAndUpdateFromSupplier(@NonNull final List<UUID> accountIds, List<UUID> idsToLoad, @NonNull final Supplier<Collection<AccountDetailsDto>> supplier) {
         final List<AccountDetails> allByIdIn = accountDetailsRepository.findAllByIdIn(accountIds);
         final Map<UUID, AccountDetails> map = allByIdIn.stream().collect(Collectors.toMap(AccountDetails::getId, Function.identity()));
 
         accountIds.stream()
                 .filter(id -> !map.containsKey(id))
                 .forEach(idsToLoad::add);
-        final List<AccountDetailsDto> detailsFromCore = supplier.get();
+        final Collection<AccountDetailsDto> detailsFromCore = supplier.get();
         if (!detailsFromCore .isEmpty()) {
             accountDetailsRepository.saveAllAsync(accountDetailsMapper.toEntityList(detailsFromCore));
         }

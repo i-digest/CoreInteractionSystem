@@ -68,13 +68,68 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>generate-core-client</id>
+                        <id>account-details-client</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
                             <inputSpec>${project.parent.basedir}/api-specs/src/main/resources/openapi/accounts-details-api-v1.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>balances-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.parent.basedir}/api-specs/src/main/resources/openapi/balances-api-v1.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>debitcards-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.parent.basedir}/api-specs/src/main/resources/openapi/debitcards-api-v1.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>legalentities-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.parent.basedir}/api-specs/src/main/resources/openapi/legalentities-api-v1.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>limits-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.parent.basedir}/api-specs/src/main/resources/openapi/limits-api-v1.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>loans-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.parent.basedir}/api-specs/src/main/resources/openapi/loans-api-v1.yaml</inputSpec>
                         </configuration>
                     </execution>
                 </executions>

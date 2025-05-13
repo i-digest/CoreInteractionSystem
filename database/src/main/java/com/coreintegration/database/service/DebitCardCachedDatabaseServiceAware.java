@@ -12,10 +12,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -35,7 +32,7 @@ public class DebitCardCachedDatabaseServiceAware {
         return getDebitCardsAndUpdateFromSupplier(debitCardId, supplier);
     }
     @NonNull
-    public List<DebitCardDto> getListOfDebitCard(@NonNull final List<UUID> debitCardIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<List<DebitCardDto>> supplier) {
+    public List<DebitCardDto> getListOfDebitCard(@NonNull final List<UUID> debitCardIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<DebitCardDto>> supplier) {
         final List<DebitCardDto> details = new ArrayList<>(debitCardIds.size());
 
         final List<UUID> idMissedFromCache = new ArrayList<>();
@@ -64,14 +61,14 @@ public class DebitCardCachedDatabaseServiceAware {
         return details;
     }
 
-    private List<DebitCardDto> getDebitCardsListAndUpdateFromSupplier(final List<UUID> debitCardIds, List<UUID> idsToLoad, final Supplier<List<DebitCardDto>> supplier) {
+    private Collection<DebitCardDto> getDebitCardsListAndUpdateFromSupplier(final List<UUID> debitCardIds, List<UUID> idsToLoad, final Supplier<Collection<DebitCardDto>> supplier) {
         final List<DebitCard> allByIdIn = debitCardsRepository.findAllByAccountIdIn(debitCardIds);
         final Map<UUID, DebitCard> map = allByIdIn.stream().collect(Collectors.toMap(DebitCard::getAccountId, Function.identity()));
 
         debitCardIds.stream()
                 .filter(id -> !map.containsKey(id))
                 .forEach(idsToLoad::add);
-        final List<DebitCardDto> detailsFromCore = supplier.get();
+        final Collection<DebitCardDto> detailsFromCore = supplier.get();
         if (!detailsFromCore .isEmpty()) {
             debitCardsRepository.saveAllAsync(debitCardsMapper.toEntityList(detailsFromCore));
         }

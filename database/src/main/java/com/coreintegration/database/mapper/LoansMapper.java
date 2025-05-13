@@ -4,14 +4,15 @@ import com.coreintegration.commons.model.LoanDto;
 import com.coreintegration.database.entity.Loan;
 import org.mapstruct.Mapper;
 
+import java.util.Collection;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface LoansMapper {
 
-    List<LoanDto> toDtoList(List<Loan> entity);
+    List<LoanDto> toDtoList(Collection<Loan> entity);
 
-    List<Loan> toEntityList(List<LoanDto> dto);
+    List<Loan> toEntityList(Collection<LoanDto> dto);
 
     LoanDto toDto(Loan entity);
 

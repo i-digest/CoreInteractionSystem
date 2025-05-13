@@ -11,10 +11,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -35,7 +32,7 @@ public class BalanceCachedDatabaseServiceAware {
     }
 
     @NonNull
-    public List<BalanceDto> getListOfBalance(@NonNull final List<UUID> balanceIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<List<BalanceDto>> supplier) {
+    public List<BalanceDto> getListOfBalance(@NonNull final List<UUID> balanceIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<BalanceDto>> supplier) {
         final List<BalanceDto> balances = new ArrayList<>(balanceIds.size());
 
         final List<UUID> idMissedFromCache = new ArrayList<>();
@@ -64,14 +61,14 @@ public class BalanceCachedDatabaseServiceAware {
         return balances;
     }
 
-    private List<BalanceDto> getBalanceListAndUpdateFromSupplier(final List<UUID> balanceIds, List<UUID> idsToLoad,final Supplier<List<BalanceDto>> supplier) {
+    private Collection<BalanceDto> getBalanceListAndUpdateFromSupplier(final List<UUID> balanceIds, List<UUID> idsToLoad,final Supplier<Collection<BalanceDto>> supplier) {
         final List<Balance> allByIdIn = balanceRepository.findAllByAccountIdIn(balanceIds);
         final Map<UUID, Balance> map = allByIdIn.stream().collect(Collectors.toMap(Balance::getAccountId, Function.identity()));
 
         balanceIds.stream()
                 .filter(id -> !map.containsKey(id))
                 .forEach(idsToLoad::add);
-        final List<BalanceDto> detailsFromCore = supplier.get();
+        final Collection<BalanceDto> detailsFromCore = supplier.get();
         if (!detailsFromCore .isEmpty()) {
             balanceRepository.saveAllAsync(balanceMapper.toEntityList(detailsFromCore));
         }
