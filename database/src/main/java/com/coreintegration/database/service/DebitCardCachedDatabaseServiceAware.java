@@ -9,7 +9,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,10 +26,11 @@ public class DebitCardCachedDatabaseServiceAware {
     private final DebitCardsRepository debitCardsRepository;
     private final DebitCardsMapper debitCardsMapper;
 
-    @Cacheable(value = CACHE_NAME, key = "#debitCardId", unless = "#result == null")
-    public DebitCardDto getDebitCard(@NonNull final UUID debitCardId, @NonNull final Supplier<DebitCardDto> supplier) {
-        return getDebitCardsAndUpdateFromSupplier(debitCardId, supplier);
+    @NonNull
+    public List<DebitCardDto> getDebitCard(@NonNull final UUID debitCardId, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<DebitCardDto>> supplier) {
+        return getListOfDebitCard(List.of(debitCardId), idsToLoadFromCore, supplier);
     }
+
     @NonNull
     public List<DebitCardDto> getListOfDebitCard(@NonNull final List<UUID> debitCardIds, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<DebitCardDto>> supplier) {
         final List<DebitCardDto> details = new ArrayList<>(debitCardIds.size());
@@ -75,15 +75,5 @@ public class DebitCardCachedDatabaseServiceAware {
         detailsFromCore.addAll(debitCardsMapper.toDtoList(allByIdIn));
 
         return detailsFromCore;
-    }
-
-    private DebitCardDto getDebitCardsAndUpdateFromSupplier(final UUID debitCardId, final Supplier<DebitCardDto> supplier) {
-        final DebitCard entity = loadOrGetFromSupplier(debitCardId, supplier);
-        return debitCardsMapper.toDto(entity);
-    }
-
-    private DebitCard loadOrGetFromSupplier(final UUID debitCardId, final Supplier<DebitCardDto> supplier) {
-        return debitCardsRepository.findById(debitCardId)
-                .orElseGet(() -> debitCardsMapper.toEntity(supplier.get()));
     }
 }

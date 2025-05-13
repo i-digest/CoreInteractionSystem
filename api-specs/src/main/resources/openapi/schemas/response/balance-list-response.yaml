@@ -4,4 +4,6 @@ properties:
   balances:
     type: object
     additionalProperties:
-      $ref: '../../balances-api-v1.yaml#/components/schemas/Balance'
+      type: array
+      items:
+        $ref: '../../balances-api-v1.yaml#/components/schemas/Balance'

@@ -4,4 +4,6 @@ properties:
   debitCards:
     type: object
     additionalProperties:
-      $ref: '../../legalentities-api-v1.yaml#/components/schemas/LegalEntity'
+      type: array
+      items:
+        $ref: '../../legalentities-api-v1.yaml#/components/schemas/LegalEntity'

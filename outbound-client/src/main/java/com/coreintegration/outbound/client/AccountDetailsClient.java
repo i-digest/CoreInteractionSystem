@@ -15,17 +15,17 @@ import java.util.UUID;
 @Component
 public class AccountDetailsClient {
 
-    private final AccountDetailsApi client = new AccountDetailsApi();
+    private final AccountDetailsApi api = new AccountDetailsApi();
 
     @NonNull
     public AccountDetailsDto getDetailsFromCore(@NotBlank final UUID accountId) {
-        final AccountDetailsResponseDto responseDto = client.getAccountDetailsById(accountId);
+        final AccountDetailsResponseDto responseDto = api.getAccountDetailsById(accountId);
         return responseDto.getAccountDetails();
     }
 
     @NonNull
     public Collection<AccountDetailsDto> getListOfDetailsFromCore(@NonNull final List<UUID> accountIds) {
-        final AccountDetailsListResponseDto responseDto = client.getAccountsDetailsByIds(accountIds);
+        final AccountDetailsListResponseDto responseDto = api.getAccountsDetailsByIds(accountIds);
         return responseDto.getAccountDetails().values();
     }
 }

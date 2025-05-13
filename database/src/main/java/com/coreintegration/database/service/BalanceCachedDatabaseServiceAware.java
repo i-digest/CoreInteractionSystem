@@ -8,7 +8,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,9 +25,9 @@ public class BalanceCachedDatabaseServiceAware {
     private final BalanceRepository balanceRepository;
     private final BalanceMapper balanceMapper;
 
-    @Cacheable(value = CACHE_NAME, key = "#balanceId", unless = "#result == null")
-    public BalanceDto getBalance(@NonNull final UUID balanceId, @NonNull final Supplier<BalanceDto> supplier) {
-        return getBalancesAndUpdateFromSupplier(balanceId, supplier);
+    @NonNull
+    public List<BalanceDto> getBalance(@NonNull final UUID balanceId, @NonNull final List<UUID> idsToLoadFromCore, @NonNull final Supplier<Collection<BalanceDto>> supplier) {
+        return getListOfBalance(List.of(balanceId), idsToLoadFromCore, supplier);
     }
 
     @NonNull
@@ -77,13 +76,4 @@ public class BalanceCachedDatabaseServiceAware {
         return detailsFromCore;
     }
 
-    private BalanceDto getBalancesAndUpdateFromSupplier(final UUID balanceId, final Supplier<BalanceDto> supplier) {
-        final Balance entity = loadOrGetFromSupplier(balanceId, supplier);
-        return balanceMapper.toDto(entity);
-    }
-
-    private Balance loadOrGetFromSupplier(final UUID balanceId, final Supplier<BalanceDto> supplier) {
-        return balanceRepository.findById(balanceId)
-                .orElseGet(() -> balanceMapper.toEntity(supplier.get()));
-    }
 }

@@ -1,5 +1,7 @@
 title: DebitCardsResponse
 type: object
 properties:
-  accountDetails:
-    $ref: '../../debitcards-api-v1.yaml#/components/schemas/DebitCard'
+  debitCards:
+    type: array
+    items:
+      $ref: '../../debitcards-api-v1.yaml#/components/schemas/DebitCard'

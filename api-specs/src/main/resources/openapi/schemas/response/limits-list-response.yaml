@@ -4,4 +4,6 @@ properties:
   debitCards:
     type: object
     additionalProperties:
-      $ref: '../../limits-api-v1.yaml#/components/schemas/Limit'
+      type: array
+      items:
+        $ref: '../../limits-api-v1.yaml#/components/schemas/Limit'

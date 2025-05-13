@@ -2,4 +2,6 @@ title: BalanceResponse
 type: object
 properties:
   balances:
-    $ref: '../../balances-api-v1.yaml#/components/schemas/Balance'
+    type: array
+    items:
+      $ref: '../../balances-api-v1.yaml#/components/schemas/Balance'

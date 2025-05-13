@@ -4,4 +4,6 @@ properties:
   debitCards:
     type: object
     additionalProperties:
-      $ref: '../../loans-api-v1.yaml#/components/schemas/Loan'
+      type: array
+      items:
+        $ref: '../../loans-api-v1.yaml#/components/schemas/Loan'
