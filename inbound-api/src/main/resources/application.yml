@@ -92,7 +92,38 @@ resilience4j:
         limitForPeriod: 3
         limitRefreshPeriod: 2s
         timeoutDuration: 500ms
-
+  circuitbreaker:
+    instances:
+      getAccountDetailsByAccountIds:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+      getBalancesByAccountIds:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+      getDebitCarsByAccountIds:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+      getLegalEntitiesByAccountIds:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+      getLimitsByAccountIds:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+      getLoansByAccountIds:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
 logging:
   level:
     root: INFO

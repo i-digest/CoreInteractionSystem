@@ -27,7 +27,7 @@ public class BalanceClient {
 
     @NonNull
     public List<BalanceDto> getBalanceByAccountId(@NotBlank final UUID accountId) {
-        return circuitBreakerExecutor.run("getLimitsByAccountIds",
+        return circuitBreakerExecutor.run("getBalancesByAccountIds",
                 () -> api.getBalanceByAccountId(accountId).getBalances(),
                 () -> balanceRepository.findAllById(Collections.singleton(accountId)).stream()
                         .map(balanceMapper::toDto)
@@ -37,7 +37,7 @@ public class BalanceClient {
     @NonNull
     public Collection<BalanceDto> getBalancesByAccountIds(@NonNull final List<UUID> accountIds) {
         return circuitBreakerExecutor.run(
-                        "getLimitsByAccountIds",
+                        "getBalancesByAccountIds",
                         () -> api.getBalancesByAccountIds(accountIds).getBalances(),
                         () -> balanceRepository.findAllByAccountIdIn(accountIds).stream()
                                 .map(balanceMapper::toDto)
