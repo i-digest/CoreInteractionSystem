@@ -1,7 +1,8 @@
-package com.coreintegration.inbound.api;
+package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.DebitCardListResponseDto;
 import com.coreintegration.commons.model.DebitCardResponseDto;
+import com.coreintegration.inbound.api.DebitCardsApi;
 import com.coreintegration.inbound.service.DebitCardsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

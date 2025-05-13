@@ -1,7 +1,8 @@
-package com.coreintegration.inbound.api;
+package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.LoansListResponseDto;
 import com.coreintegration.commons.model.LoansResponseDto;
+import com.coreintegration.inbound.api.LoansApi;
 import com.coreintegration.inbound.service.LoansService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

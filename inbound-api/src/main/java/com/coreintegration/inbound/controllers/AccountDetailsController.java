@@ -1,7 +1,8 @@
-package com.coreintegration.inbound.api;
+package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.AccountDetailsListResponseDto;
 import com.coreintegration.commons.model.AccountDetailsResponseDto;
+import com.coreintegration.inbound.api.AccountDetailsApi;
 import com.coreintegration.inbound.service.AccountDetailsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

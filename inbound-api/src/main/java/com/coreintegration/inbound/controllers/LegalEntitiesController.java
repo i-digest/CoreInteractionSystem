@@ -1,7 +1,8 @@
-package com.coreintegration.inbound.api;
+package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.LegalEntitiesListResponseDto;
 import com.coreintegration.commons.model.LegalEntitiesResponseDto;
+import com.coreintegration.inbound.api.LegalEntitiesApi;
 import com.coreintegration.inbound.service.LegalEntitiesService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

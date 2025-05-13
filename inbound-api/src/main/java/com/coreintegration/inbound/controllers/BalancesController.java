@@ -1,7 +1,8 @@
-package com.coreintegration.inbound.api;
+package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.BalanceListResponseDto;
 import com.coreintegration.commons.model.BalanceResponseDto;
+import com.coreintegration.inbound.api.BalancesApi;
 import com.coreintegration.inbound.service.BalancesService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
