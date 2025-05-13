@@ -6,13 +6,17 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+
 @Repository
 public interface AsyncRepository<E, K> extends JpaRepository<E, K> {
 
     @Async
     @NonNull
     @Transactional
-    default void saveAllAsync(@NonNull Iterable<E> entities) {
-        saveAll(entities);
+    default Future<List<E>> saveAllAsync(@NonNull Iterable<E> entities) {
+        return CompletableFuture.completedFuture(saveAll(entities));
     }
 }

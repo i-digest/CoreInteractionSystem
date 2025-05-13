@@ -2,6 +2,7 @@ package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.LimitsListResponseDto;
 import com.coreintegration.commons.model.LimitsResponseDto;
+import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.LimitsApi;
 import com.coreintegration.inbound.service.LimitsService;
 import jakarta.validation.Valid;
@@ -21,11 +22,13 @@ public class LimitsController implements LimitsApi {
     private final LimitsService limitsService;
 
     @Override
+    @Idempotent
     public ResponseEntity<LimitsResponseDto> getLimitsByAccountId(@NotBlank @Valid final UUID accountId) {
         return ResponseEntity.ok(limitsService.getLimitsByAccountId(accountId));
     }
 
     @Override
+    @Idempotent
     public ResponseEntity<LimitsListResponseDto> getLimitsByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(limitsService.getLimitsByAccountIds(accountIds));
     }

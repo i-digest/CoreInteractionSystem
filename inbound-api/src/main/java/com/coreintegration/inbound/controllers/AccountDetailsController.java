@@ -2,6 +2,7 @@ package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.AccountDetailsListResponseDto;
 import com.coreintegration.commons.model.AccountDetailsResponseDto;
+import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.AccountDetailsApi;
 import com.coreintegration.inbound.service.AccountDetailsService;
 import jakarta.validation.Valid;
@@ -21,11 +22,13 @@ public class AccountDetailsController implements AccountDetailsApi {
     private final AccountDetailsService service;
 
     @Override
+    @Idempotent
     public ResponseEntity<AccountDetailsResponseDto> getAccountDetailsById(@NotBlank @Valid final UUID accountId) {
         return ResponseEntity.ok(service.getAccountDetailsById(accountId));
     }
 
     @Override
+    @Idempotent
     public ResponseEntity<AccountDetailsListResponseDto> getAccountsDetailsByIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(service.getAccountsDetailsByIds(accountIds));
     }

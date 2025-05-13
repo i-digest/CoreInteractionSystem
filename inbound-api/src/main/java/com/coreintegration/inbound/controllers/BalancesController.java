@@ -2,6 +2,7 @@ package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.BalanceListResponseDto;
 import com.coreintegration.commons.model.BalanceResponseDto;
+import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.BalancesApi;
 import com.coreintegration.inbound.service.BalancesService;
 import jakarta.validation.Valid;
@@ -21,11 +22,13 @@ public class BalancesController implements BalancesApi {
     private final BalancesService service;
 
     @Override
+    @Idempotent
     public ResponseEntity<BalanceResponseDto> getBalanceByAccountId(@NotBlank @Valid final UUID accountId) {
         return ResponseEntity.ok(service.getBalanceById(accountId));
     }
 
     @Override
+    @Idempotent
     public ResponseEntity<BalanceListResponseDto> getBalancesByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(service.getBalancesByIds(accountIds));
     }

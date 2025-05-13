@@ -32,5 +32,10 @@
             <artifactId>monitoring</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.coreintegration</groupId>
+            <artifactId>request-deduplication</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>

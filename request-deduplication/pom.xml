@@ -11,4 +11,10 @@
     <artifactId>request-deduplication</artifactId>
     <name>Request Deduplication</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+    </dependencies>
 </project>

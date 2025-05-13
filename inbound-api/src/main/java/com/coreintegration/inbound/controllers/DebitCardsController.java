@@ -2,6 +2,7 @@ package com.coreintegration.inbound.controllers;
 
 import com.coreintegration.commons.model.DebitCardListResponseDto;
 import com.coreintegration.commons.model.DebitCardResponseDto;
+import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.DebitCardsApi;
 import com.coreintegration.inbound.service.DebitCardsService;
 import jakarta.validation.Valid;
@@ -21,11 +22,13 @@ public class DebitCardsController implements DebitCardsApi {
     private final DebitCardsService debitCardsService;
 
     @Override
+    @Idempotent
     public ResponseEntity<DebitCardResponseDto> getDebitCardsByAccountId(@NotBlank @Valid final UUID accountId) {
         return ResponseEntity.ok(debitCardsService.getDebitCardsByAccountId(accountId));
     }
 
     @Override
+    @Idempotent
     public ResponseEntity<DebitCardListResponseDto> getDebitCardsByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(debitCardsService.getDebitCardsByAccountIds(accountIds));
     }
