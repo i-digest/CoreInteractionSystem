@@ -17,7 +17,7 @@ public class MonitoringAspect {
 
     private final RequestMetricsService requestMetricsService;
 
-    @Around("execution(* com.coreintegration..*(..))")
+    @Around("execution(* com.coreintegration..*(..)) && !execution(* com.coreintegration.monitoring..*(..))")
     public Object logInboundApiCalls(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         final Signature signature = joinPoint.getSignature();

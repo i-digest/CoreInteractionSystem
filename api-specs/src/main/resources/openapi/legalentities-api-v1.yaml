@@ -6,7 +6,7 @@ servers:
   - url: /service-api/v1/legal-entities
 
 paths:
-  /:
+  /service-api/v1/legal-entities:
     get:
       summary: Get list of legal entities by account ids
       operationId: getLegalEntitiesByAccountIds
@@ -30,7 +30,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LegalEntitiesListResponse'
-  /{accountId}:
+  /service-api/v1/legal-entities/{accountId}:
     get:
       summary: get legal entities by account id
       operationId: getLegalEntitiesByAccountId

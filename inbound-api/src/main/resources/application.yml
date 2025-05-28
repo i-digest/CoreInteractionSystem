@@ -6,9 +6,9 @@ spring:
     name: Core Interaction System
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/coredb
-    username: core
-    password: secret
+    url: jdbc:postgresql://localhost:5432/core_integration_system
+    username: postgres
+    password: nosferratu
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -20,6 +20,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
+    enabled: true
+
   cache:
     type: redis
   data:
@@ -28,7 +32,6 @@ spring:
       port: 6379
       timeout: 1000ms
       database: 0
-      ttl: 30M
 
 resilience4j:
   ratelimiter:

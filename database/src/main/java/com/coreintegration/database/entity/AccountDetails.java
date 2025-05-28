@@ -9,10 +9,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
+@Entity
 @Table(name = "account_details")
 @EqualsAndHashCode
 public class AccountDetails {
 
+    @Id
     @Column(name = "id")
     private UUID id;
 

@@ -6,7 +6,7 @@ servers:
   - url: /service-api/v1/limits
 
 paths:
-  /:
+  /service-api/v1/limits:
     get:
       summary: Get list of limits by account ids
       operationId: getLimitsByAccountIds
@@ -28,7 +28,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LimitsListResponse'
-  /{accountId}:
+  /service-api/v1/limits/{accountId}:
     get:
       summary: get limits by account id
       operationId: getLimitsByAccountId

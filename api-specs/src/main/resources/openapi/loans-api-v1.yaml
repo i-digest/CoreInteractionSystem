@@ -6,7 +6,7 @@ servers:
   - url: /service-api/v1/loans
 
 paths:
-  /:
+  /service-api/v1/loans:
     get:
       summary: Get list of loans by account ids
       operationId: getLoansByAccountIds
@@ -30,7 +30,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoansListResponse'
-  /{accountId}:
+  /service-api/v1/loans/{accountId}:
     get:
       summary: get loans by account id
       operationId: getLoansByAccountId

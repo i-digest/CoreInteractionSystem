@@ -6,7 +6,7 @@ servers:
   - url: /service-api/v1/balances
 
 paths:
-  /:
+  /service-api/v1/balances:
     get:
       summary: Get balances by account ids
       operationId: getBalancesByAccountIds
@@ -30,7 +30,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BalanceListResponse'
-  /{accountId}:
+  /service-api/v1/balances/{accountId}:
     get:
       summary: Get balance by account id
       operationId: getBalanceByAccountId

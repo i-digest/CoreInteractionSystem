@@ -6,7 +6,7 @@ servers:
   - url: /service-api/v1/accounts
 
 paths:
-  /:
+  /service-api/v1/accounts:
     get:
       summary: Get list of account details
       operationId: getAccountsDetailsByIds
@@ -30,7 +30,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDetailsListResponse'
-  /{accountId}:
+  /service-api/v1/accounts/{accountId}:
     get:
       summary: Get a account details
       operationId: getAccountDetailsById

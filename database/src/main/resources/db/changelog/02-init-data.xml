@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- Insert account details -->
+    <changeSet id="7" author="liquibase">
+        <comment>Insert sample account details</comment>
+        <sql>
+            INSERT INTO account_details (id, fist_name, last_name, surname, last_update_date)
+            VALUES 
+            ('a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890', 'John', 'Smith', 'Jr.', CURRENT_TIMESTAMP),
+            ('b2c3d4e5-f6a7-8901-b2c3-d4e5f6a78901', 'Jane', 'Johnson', '', CURRENT_TIMESTAMP),
+            ('c3d4e5f6-a7b8-9012-c3d4-e5f6a7b89012', 'Michael', 'Williams', 'III', CURRENT_TIMESTAMP),
+            ('d4e5f6a7-b8c9-0123-d4e5-f6a7b8c90123', 'Emily', 'Jones', '', CURRENT_TIMESTAMP),
+            ('e5f6a7b8-c9d0-1234-e5f6-a7b8c9d01234', 'David', 'Brown', 'Sr.', CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Insert balances -->
+    <changeSet id="8" author="liquibase">
+        <comment>Insert sample balances</comment>
+        <sql>
+            INSERT INTO balance (id, account_id, account_number, total_balance, available_balance, currency, last_update_date)
+            VALUES 
+            ('f6a7b8c9-d0e1-2345-f6a7-b8c9d0e12345', 'a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890', '1234567890', 5000.00, 4500.00, 'USD', CURRENT_TIMESTAMP),
+            ('a7b8c9d0-e1f2-3456-a7b8-c9d0e1f23456', 'a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890', '2345678901', 3000.00, 2700.00, 'EUR', CURRENT_TIMESTAMP),
+            ('b8c9d0e1-f2a3-4567-b8c9-d0e1f2a34567', 'b2c3d4e5-f6a7-8901-b2c3-d4e5f6a78901', '3456789012', 7500.00, 6750.00, 'USD', CURRENT_TIMESTAMP),
+            ('c9d0e1f2-a3b4-5678-c9d0-e1f2a3b45678', 'c3d4e5f6-a7b8-9012-c3d4-e5f6a7b89012', '4567890123', 10000.00, 9000.00, 'GBP', CURRENT_TIMESTAMP),
+            ('d0e1f2a3-b4c5-6789-d0e1-f2a3b4c56789', 'd4e5f6a7-b8c9-0123-d4e5-f6a7b8c90123', '5678901234', 2500.00, 2250.00, 'USD', CURRENT_TIMESTAMP),
+            ('e1f2a3b4-c5d6-7890-e1f2-a3b4c5d67890', 'e5f6a7b8-c9d0-1234-e5f6-a7b8c9d01234', '6789012345', 15000.00, 13500.00, 'JPY', CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Insert debit cards -->
+    <changeSet id="9" author="liquibase">
+        <comment>Insert sample debit cards</comment>
+        <sql>
+            INSERT INTO debit_card (id, account_id, card_type, card_number, card_expiry_date, card_holder_name, card_issue_date, last_update_date)
+            VALUES 
+            ('f2a3b4c5-d6e7-8901-f2a3-b4c5d6e78901', 'a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890', 'VISA', '1234-5678-9012-3456', CURRENT_TIMESTAMP + INTERVAL '3 YEAR', 'John Smith', CURRENT_TIMESTAMP - INTERVAL '1 YEAR', CURRENT_TIMESTAMP),
+            ('a3b4c5d6-e7f8-9012-a3b4-c5d6e7f89012', 'b2c3d4e5-f6a7-8901-b2c3-d4e5f6a78901', 'MASTERCARD', '2345-6789-0123-4567', CURRENT_TIMESTAMP + INTERVAL '2 YEAR', 'Jane Johnson', CURRENT_TIMESTAMP - INTERVAL '2 YEAR', CURRENT_TIMESTAMP),
+            ('b4c5d6e7-f8a9-0123-b4c5-d6e7f8a90123', 'c3d4e5f6-a7b8-9012-c3d4-e5f6a7b89012', 'AMEX', '3456-7890-1234-5678', CURRENT_TIMESTAMP + INTERVAL '3 YEAR', 'Michael Williams', CURRENT_TIMESTAMP - INTERVAL '1 YEAR', CURRENT_TIMESTAMP),
+            ('c5d6e7f8-a9b0-1234-c5d6-e7f8a9b01234', 'e5f6a7b8-c9d0-1234-e5f6-a7b8c9d01234', 'DISCOVER', '4567-8901-2345-6789', CURRENT_TIMESTAMP + INTERVAL '2 YEAR', 'David Brown', CURRENT_TIMESTAMP - INTERVAL '2 YEAR', CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Insert legal entities -->
+    <changeSet id="10" author="liquibase">
+        <comment>Insert sample legal entities</comment>
+        <sql>
+            INSERT INTO legal_entity (id, account_id, name, last_update_date)
+            VALUES 
+            ('d6e7f8a9-b0c1-2345-d6e7-f8a9b0c12345', 'c3d4e5f6-a7b8-9012-c3d4-e5f6a7b89012', 'Acme Corp', CURRENT_TIMESTAMP),
+            ('e7f8a9b0-c1d2-3456-e7f8-a9b0c1d23456', 'e5f6a7b8-c9d0-1234-e5f6-a7b8c9d01234', 'Globex', CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Insert limits -->
+    <changeSet id="11" author="liquibase">
+        <comment>Insert sample limits</comment>
+        <sql>
+            INSERT INTO account_limits (id, account_id, account_number, daily_limit, weekly_limit, monthly_limit, yearly_limit, last_update_date)
+            VALUES 
+            ('f8a9b0c1-d2e3-4567-f8a9-b0c1d2e34567', 'a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890', '1234567890', 500.00, 2500.00, 10000.00, 100000.00, CURRENT_TIMESTAMP),
+            ('a9b0c1d2-e3f4-5678-a9b0-c1d2e3f45678', 'b2c3d4e5-f6a7-8901-b2c3-d4e5f6a78901', '2345678901', 1000.00, 5000.00, 20000.00, 200000.00, CURRENT_TIMESTAMP),
+            ('b0c1d2e3-f4a5-6789-b0c1-d2e3f4a56789', 'd4e5f6a7-b8c9-0123-d4e5-f6a7b8c90123', '5678901234', 750.00, 3750.00, 15000.00, 150000.00, CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Insert loans -->
+    <changeSet id="12" author="liquibase">
+        <comment>Insert sample loans</comment>
+        <sql>
+            INSERT INTO loan (id, account_id, account_number, loan_number, principal_amount, interest_rate, start_date, end_date, last_update_date)
+            VALUES 
+            ('c1d2e3f4-a5b6-7890-c1d2-e3f4a5b67890', 'b2c3d4e5-f6a7-8901-b2c3-d4e5f6a78901', '2345678901', 'L12345678', 25000.00, 5.75, CURRENT_DATE - INTERVAL '2 YEAR', CURRENT_DATE + INTERVAL '8 YEAR', CURRENT_TIMESTAMP),
+            ('d2e3f4a5-b6c7-8901-d2e3-f4a5b6c78901', 'e5f6a7b8-c9d0-1234-e5f6-a7b8c9d01234', '6789012345', 'L23456789', 50000.00, 4.25, CURRENT_DATE - INTERVAL '3 YEAR', CURRENT_DATE + INTERVAL '7 YEAR', CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

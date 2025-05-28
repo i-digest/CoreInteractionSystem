@@ -1,6 +1,8 @@
 package com.coreintegration.database.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,14 +12,16 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Table(name = "limit")
+@Entity
+@Table(name = "account_limits")
 @EqualsAndHashCode
 public class Limit {
 
+    @Id
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "account_id")
+    @Column(name = "account_id", insertable = false, updatable = false)
     private UUID accountId;
 
     @Column(name = "account_number")

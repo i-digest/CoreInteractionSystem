@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="1" author="liquibase">
+        <comment>Create account_details table</comment>
+        <createTable tableName="account_details">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="fist_name" type="varchar(255)"/>
+            <column name="last_name" type="varchar(255)"/>
+            <column name="surname" type="varchar(255)"/>
+            <column name="last_update_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="liquibase">
+        <comment>Create balance table</comment>
+        <createTable tableName="balance">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_balance_account" references="account_details(id)"/>
+            </column>
+            <column name="account_number" type="varchar(255)"/>
+            <column name="total_balance" type="decimal(19,2)"/>
+            <column name="available_balance" type="decimal(19,2)"/>
+            <column name="currency" type="varchar(3)"/>
+            <column name="last_update_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="liquibase">
+        <comment>Create debit_card table</comment>
+        <createTable tableName="debit_card">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_debit_card_account" references="account_details(id)"/>
+            </column>
+            <column name="card_type" type="varchar(255)"/>
+            <column name="card_number" type="varchar(255)"/>
+            <column name="card_expiry_date" type="timestamp"/>
+            <column name="card_holder_name" type="varchar(255)"/>
+            <column name="card_issue_date" type="timestamp"/>
+            <column name="last_update_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="liquibase">
+        <comment>Create legal_entity table</comment>
+        <createTable tableName="legal_entity">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_legal_entity_account" references="account_details(id)"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="last_update_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="liquibase">
+        <comment>Create account_limits table</comment>
+        <createTable tableName="account_limits">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_account_limits_account" references="account_details(id)"/>
+            </column>
+            <column name="account_number" type="varchar(255)"/>
+            <column name="daily_limit" type="decimal(19,2)"/>
+            <column name="weekly_limit" type="decimal(19,2)"/>
+            <column name="monthly_limit" type="decimal(19,2)"/>
+            <column name="yearly_limit" type="decimal(19,2)"/>
+            <column name="last_update_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="liquibase">
+        <comment>Create loan table</comment>
+        <createTable tableName="loan">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_loan_account" references="account_details(id)"/>
+            </column>
+            <column name="account_number" type="varchar(255)"/>
+            <column name="loan_number" type="varchar(255)"/>
+            <column name="principal_amount" type="decimal(19,2)"/>
+            <column name="interest_rate" type="decimal(5,2)"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="last_update_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

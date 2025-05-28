@@ -6,7 +6,7 @@ servers:
   - url: /service-api/v1/debit-cards
 
 paths:
-  /:
+  /service-api/v1/debit-cards:
     get:
       summary: Get debit cards by account ids
       operationId: getDebitCardsByAccountIds
@@ -30,7 +30,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DebitCardListResponse'
-  /{accountId}:
+  /service-api/v1/debit-cards/{accountId}:
     get:
       summary: Get a single debitcard
       operationId: getDebitCardsByAccountId
