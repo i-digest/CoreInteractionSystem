@@ -36,7 +36,7 @@ public class LoansService {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
         final List<LoanDto> limits = cacheServiceAware.getLoansByAccountIds(accountIds, idsToFetchFromCore, () -> loansClient.getLoansByAccountIds(idsToFetchFromCore));
         final Map<String, List<LoanDto>> limitsMap = limits.stream()
-                .collect(Collectors.groupingBy(dc -> dc.getId().toString()));
+                .collect(Collectors.groupingBy(l -> l.getId().toString()));
 
         return new LoansListResponseDto().loans(limitsMap);
     }

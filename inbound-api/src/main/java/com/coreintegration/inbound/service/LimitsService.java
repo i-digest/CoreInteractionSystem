@@ -36,7 +36,7 @@ public class LimitsService {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
         final List<LimitDto> limits = cacheServiceAware.getLimitsByAccountIds(accountIds, idsToFetchFromCore, () -> limitsClient.getLimitsByAccountIds(idsToFetchFromCore));
         final Map<String, List<LimitDto>> limitsMap = limits.stream()
-                .collect(Collectors.groupingBy(dc -> dc.getId().toString()));
+                .collect(Collectors.groupingBy(l -> l.getId().toString()));
 
         return new LimitsListResponseDto().limits(limitsMap);
     }

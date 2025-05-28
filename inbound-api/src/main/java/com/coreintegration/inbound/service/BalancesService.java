@@ -34,7 +34,7 @@ public class BalancesService {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
         final Collection<BalanceDto> balances = cacheServiceAware.getBalancesByAccountIds(balanceIds, idsToFetchFromCore, () -> balanceClient.getBalancesByAccountIds(idsToFetchFromCore));
         final Map<String, List<BalanceDto>> balancesMap = balances.stream()
-                .collect(Collectors.groupingBy(dc -> dc.getId().toString()));
+                .collect(Collectors.groupingBy(b -> b.getId().toString()));
 
         return new BalanceListResponseDto().balances(balancesMap);
     }

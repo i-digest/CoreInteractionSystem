@@ -36,7 +36,7 @@ public class LegalEntitiesService {
         final List<UUID> idsToFetchFromCore = new ArrayList<>();
         final List<LegalEntityDto> legalEntities = cacheServiceAware.getLegalEntitiesByAccountIds(accountIds, idsToFetchFromCore, () -> legalEntitiesClient.getLegalEntitiesByAccountIds(idsToFetchFromCore));
         final Map<String, List<LegalEntityDto>> legalEntityMap = legalEntities.stream()
-                .collect(Collectors.groupingBy(dc -> dc.getId().toString()));
+                .collect(Collectors.groupingBy(le -> le.getId().toString()));
 
         return new LegalEntitiesListResponseDto().legalEntities(legalEntityMap);
     }
