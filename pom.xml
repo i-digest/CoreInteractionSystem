@@ -11,15 +11,15 @@
     <name>Core Interaction System</name>
 
     <modules>
-        <module>api-specs</module>               <!-- OpenAPI YAML-описания -->
-        <module>inbound-api</module>             <!-- REST-контроллеры (генерация по спекам) -->
-        <module>database</module>                <!-- Локальное JPA-хранилище -->
-        <module>outbound-client</module>         <!-- WebClient / Feign-клиенты к core -->
-        <module>circuit-breaker</module>         <!-- Circuit Breaker / resilience4j -->
-        <module>fallback-engine</module>         <!-- Фоллбеки при отказах -->
-        <module>monitoring</module>              <!-- Метрики, логи, AOP -->
-        <module>request-deduplication</module>   <!-- Дедупликация входящих запросов -->
-        <module>commons</module>                 <!-- Redis / Caffeine кеш -->
+        <module>api-specs</module> <!-- OpenAPI YAML descriptions -->
+        <module>inbound-api</module> <!-- REST controllers (generation by specs) -->
+        <module>database</module> <!-- Local JPA storage -->
+        <module>outbound-client</module> <!-- WebClient / Feign clients to core -->
+        <module>circuit-breaker</module> <!-- Circuit Breaker / resilience4j -->
+        <module>fallback-engine</module> <!-- Fallbacks on failures -->
+        <module>monitoring</module> <!-- Metrics, logs, AOP -->
+        <module>request-deduplication</module> <!-- Deduplication of incoming requests -->
+        <module>commons</module> <!-- Redis / Caffeine cache -->
     </modules>
 
     <properties>
