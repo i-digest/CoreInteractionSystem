@@ -6,8 +6,7 @@ import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.AccountDetailsApi;
 import com.coreintegration.inbound.service.AccountDetailsService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,13 @@ public class AccountDetailsController implements AccountDetailsApi {
 
     @Override
     @Idempotent
-    public ResponseEntity<AccountDetailsResponseDto> getAccountDetailsById(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<AccountDetailsResponseDto> getAccountDetailsById(final UUID accountId) {
         return ResponseEntity.ok(service.getAccountDetailsById(accountId));
     }
 
     @Override
     @Idempotent
-    public ResponseEntity<AccountDetailsListResponseDto> getAccountsDetailsByIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<AccountDetailsListResponseDto> getAccountsDetailsByIds(@NotNull @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(service.getAccountsDetailsByIds(accountIds));
     }
 

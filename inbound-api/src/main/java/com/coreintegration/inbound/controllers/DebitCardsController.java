@@ -6,8 +6,7 @@ import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.DebitCardsApi;
 import com.coreintegration.inbound.service.DebitCardsService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,13 @@ public class DebitCardsController implements DebitCardsApi {
 
     @Override
     @Idempotent
-    public ResponseEntity<DebitCardResponseDto> getDebitCardsByAccountId(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<DebitCardResponseDto> getDebitCardsByAccountId(final UUID accountId) {
         return ResponseEntity.ok(debitCardsService.getDebitCardsByAccountId(accountId));
     }
 
     @Override
     @Idempotent
-    public ResponseEntity<DebitCardListResponseDto> getDebitCardsByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<DebitCardListResponseDto> getDebitCardsByAccountIds(@NotNull @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(debitCardsService.getDebitCardsByAccountIds(accountIds));
     }
 

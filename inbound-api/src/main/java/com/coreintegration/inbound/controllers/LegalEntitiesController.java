@@ -6,8 +6,7 @@ import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.LegalEntitiesApi;
 import com.coreintegration.inbound.service.LegalEntitiesService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,13 @@ public class LegalEntitiesController implements LegalEntitiesApi {
 
     @Override
     @Idempotent
-    public ResponseEntity<LegalEntitiesResponseDto> getLegalEntitiesByAccountId(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<LegalEntitiesResponseDto> getLegalEntitiesByAccountId(final UUID accountId) {
         return ResponseEntity.ok(legalEntitiesService.getLegalEntitiesByAccountId(accountId));
     }
 
     @Override
     @Idempotent
-    public ResponseEntity<LegalEntitiesListResponseDto> getLegalEntitiesByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<LegalEntitiesListResponseDto> getLegalEntitiesByAccountIds(@NotNull @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(legalEntitiesService.getLegalEntitiesByAccountIds(accountIds));
     }
 

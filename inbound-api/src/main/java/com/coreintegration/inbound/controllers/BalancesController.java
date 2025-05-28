@@ -6,8 +6,7 @@ import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.BalancesApi;
 import com.coreintegration.inbound.service.BalancesService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,13 @@ public class BalancesController implements BalancesApi {
 
     @Override
     @Idempotent
-    public ResponseEntity<BalanceResponseDto> getBalanceByAccountId(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<BalanceResponseDto> getBalanceByAccountId(final UUID accountId) {
         return ResponseEntity.ok(service.getBalanceById(accountId));
     }
 
     @Override
     @Idempotent
-    public ResponseEntity<BalanceListResponseDto> getBalancesByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<BalanceListResponseDto> getBalancesByAccountIds(@NotNull @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(service.getBalancesByIds(accountIds));
     }
 

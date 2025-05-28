@@ -6,8 +6,7 @@ import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.LimitsApi;
 import com.coreintegration.inbound.service.LimitsService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,13 @@ public class LimitsController implements LimitsApi {
 
     @Override
     @Idempotent
-    public ResponseEntity<LimitsResponseDto> getLimitsByAccountId(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<LimitsResponseDto> getLimitsByAccountId(final UUID accountId) {
         return ResponseEntity.ok(limitsService.getLimitsByAccountId(accountId));
     }
 
     @Override
     @Idempotent
-    public ResponseEntity<LimitsListResponseDto> getLimitsByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<LimitsListResponseDto> getLimitsByAccountIds(@NotNull @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(limitsService.getLimitsByAccountIds(accountIds));
     }
 

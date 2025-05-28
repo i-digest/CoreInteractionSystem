@@ -6,8 +6,7 @@ import com.coreintegration.deduplication.annotation.Idempotent;
 import com.coreintegration.inbound.api.LoansApi;
 import com.coreintegration.inbound.service.LoansService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,13 @@ public class LoansController implements LoansApi {
 
     @Override
     @Idempotent
-    public ResponseEntity<LoansResponseDto> getLoansByAccountId(@NotBlank @Valid final UUID accountId) {
+    public ResponseEntity<LoansResponseDto> getLoansByAccountId(final UUID accountId) {
         return ResponseEntity.ok(loansService.getLoansByAccountId(accountId));
     }
 
     @Override
     @Idempotent
-    public ResponseEntity<LoansListResponseDto> getLoansByAccountIds(@Size(min = 1, max = 1000) @Valid final List<UUID> accountIds) {
+    public ResponseEntity<LoansListResponseDto> getLoansByAccountIds(@NotNull @Valid final List<UUID> accountIds) {
         return ResponseEntity.ok(loansService.getLoansByAccountIds(accountIds));
     }
 
