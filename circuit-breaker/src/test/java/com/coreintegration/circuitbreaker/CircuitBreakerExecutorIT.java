@@ -1,6 +1,5 @@
 package com.coreintegration.circuitbreaker;
 
-import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +14,6 @@ public class CircuitBreakerExecutorIT {
     @Autowired
     private CircuitBreakerExecutor executor;
 
-    @Autowired
-    private CircuitBreakerRegistry registry;
 
     @Test
     void shouldReturnFallbackWhenExceptionOccurs() {
